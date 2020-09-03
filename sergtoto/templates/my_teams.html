@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <h1>Show My Teams</h1>
+    <div class="col-lg-9">
+            {% for team in  my_teams %}
+                <div class="list-group-item">
+                    <h3>{{ team.name }}</h3>
+                    <p>{{ team.description }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+
+{% endblock content %}

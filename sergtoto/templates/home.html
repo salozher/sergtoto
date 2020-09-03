@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    {% if user.is_authenticated %}
+        <h1 class="my-4">Serg's Totoooo!</h1>
+        <div class="col-lg-3">
+            <div class="list-group">
+                <div class="row">
+                    {% for contest in contests %}
+                        <a href="#" class="list-group-item">Contest on {{ contest.contest_date }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            {% for game in  games %}
+                <div class="list-group-item">
+                    <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                    <h3>{{ game.team_a }} play against {{ game.team_b }}</h3>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h2>Hello Guest!<br> Welcome to Serg's Toto.<br>Please log in:</h2>
+        <h4>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h4>
+        <h4>For all those accounts the password is: <br>password</h4>
+        <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>
+        <a href="{% url 'login' %}">
+            <button class="btn btn-danger btn-block">Login</button>
+        </a>
+    {% endif %}
+
+    {#    <script>#}
+    {#        $(document).ready(function () {#}
+    {#            $('.addtocart').on('click', function (e) {#}
+    {#                e.preventDefault()#}
+    {#                product_slug = $(this).attr('data-slug')#}
+    {#                item_product_id = $(this).attr('data-id')#}
+    {#                data = {product_slug: product_slug}#}
+    {#                console.log(product_slug)#}
+    {#                $.ajax({#}
+    {#                    type: 'GET',#}
+    {#                    url: '{% url "add_to_cart" %}',#}
+    {#                    data: data,#}
+    {#                    success: function (data) {#}
+    {#                        console.log(item_product_id)#}
+    {#                        $('.product-item-' + item_product_id).css('display', 'none')#}
+    {#                        $("#cart_count").html(data.cart_total)#}
+    {#                        location.reload();#}
+    {#                    }#}
+    {#                })#}
+    {#            })#}
+    {#        })#}
+    {#    </script>#}
+{% endblock content %}
