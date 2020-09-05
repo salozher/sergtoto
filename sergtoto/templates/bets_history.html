@@ -3,6 +3,14 @@
 {% block content %}
     <script src="{% static 'js/jquery.js' %}"></script>
     <h1>Bets History</h1>
+    <div class="col-lg-9">
+        {% for bet in  bets %}
+            <div class="list-group-item">
+                <h3>{{ bet.user }} make a bet of €{{ bet.amount }} </h3>
+                <p>for a game {{ bet.game }} with result {{ bet.game_result }}</p>
+            </div>
+        {% endfor %}
+    </div>
 
 
 {% endblock content %}
