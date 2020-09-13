@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    {% if user.is_authenticated %}
+        <h1 class="my-4">Serg's Totoooo!</h1>
+        <div class="col-lg-3">
+            <div class="list-group">
+                <div class="row">
+                    {% for contest in contests %}
+                        <a href="#" class="list-group-item">Contest on {{ contest.contest_date }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            {% for game in  games %}
+                <div class="list-group-item">
+                    <div class="list-group-horizontal">
+                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                        {#                        <form class="form">#}
+                        <form method="post" enctype="multipart/form-data">
+                            <h4>{{ game.team_a }}
+                                <input type="radio" id="1" name="checks[]" value="1"/>
+                                <label for="radio-one">Will win the game(1)</label></h4>
+                            <h4>play against
+                                <input type="radio" id="3" name="checks[]" value="3" checked/>
+                                <label for="radio-three">Draw!(3)</label></h4>
+                            <h4>{{ game.team_b }}
+                                <input type="radio" id="2" name="checks[]" value="2"/>
+                                <label for="radio-two">Will win the game(2)</label></h4>
+                            <h4>{{ game.pk }}</h4>
+                            <td>
+                                <form action="{% url 'game' game.pk %}" method="post">
+                                {% csrf_token %}
+                                {{ form }}
+                                <button type="submit" value="Vote">Do
+                                    it
+                                </button>
+                                </form>
+                            </td>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+
+
+    {#        <script>#}
+    {#            $(document).ready(function () {#}
+    {#                $('.addtocart').on('click', function (e) {#}
+    {#                    e.preventDefault()#}
+    {#                    product_slug = $(this).attr('data-slug')#}
+    {#                    item_product_id = $(this).attr('data-id')#}
+    {#                    data = {product_slug: product_slug}#}
+    {#                    console.log(product_slug)#}
+    {#                    $.ajax({#}
+    {#                        type: 'POST',#}
+    {#                        url: '{% url "add_to_cart" %}',#}
+    {#                        data: data,#}
+    {#                        success: function (data) {#}
+    {#                            console.log(item_product_id)#}
+    {#                            $('.product-item-' + item_product_id).css('display', 'none')#}
+    {#                            $("#cart_count").html(data.cart_total)#}
+    {#                            location.reload();#}
+    {#                        }#}
+    {#                    })#}
+    {#                })#}
+    {#            })#}
+    {#        </script>#}
+{% endblock content %}

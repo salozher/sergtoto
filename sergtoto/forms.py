@@ -16,7 +16,7 @@ class AddNewTeamForm(forms.ModelForm):
 class AddNewBetForm(forms.ModelForm):
     class Meta:
         model = Bet
-        fields = ('game', 'game_result', 'amount')
+        fields = ('amount',)
 
     def __init__(self, *args, **kwargs):
         super(AddNewBetForm, self).__init__(*args, **kwargs)

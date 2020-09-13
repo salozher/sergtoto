@@ -12,7 +12,7 @@ from .models import MyUser, Team, Game, Contest, Bet
 
 
 
-def games_view(request, pk):
+def game_view(request, pk):
     if request.method == 'POST':
         game = Game.objects.get(pk=pk)
         # create a form instance and populate it with data from the request:
@@ -30,20 +30,20 @@ def games_view(request, pk):
             form.instance.draw = True
         if form.is_valid():
             form.save()
-        return redirect('bets_history')
+        return redirect('my_bets_history')
     else:
-        # form = AddNewBetForm()
-        # contests = Contest.objects.all()
-        # games = Game.objects.all()
-        # checked_radiobuttons = request.POST.getlist('checks')
-        # context = {
-        #     'form': form,
-        #     'contests': contests,
-        #     'games': games,
-        #     'checked_radiobuttons': checked_radiobuttons,
-        # }
-        # returns render(request, template of certain product or element, context dictionary)
-        return redirect('bets_history')
+        form = AddNewBetForm()
+        contests = Contest.objects.all()
+        games = Game.objects.all()
+        checked_radiobuttons = request.POST.getlist('checks')
+        context = {
+            'form': form,
+            'contests': contests,
+            'games': games,
+            'checked_radiobuttons': checked_radiobuttons,
+        }
+        return render(request, 'game_bet.html', context)
+        # return redirect('bets_history')
 
 def home_view(request):
     contests = Contest.objects.all()

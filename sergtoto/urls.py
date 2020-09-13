@@ -16,7 +16,7 @@ from .views import (
     AddNewContestView,
     AddNewGameView,
     make_bet,
-    games_view,
+    game_view,
 )
 
 urlpatterns = [
@@ -32,7 +32,7 @@ urlpatterns = [
     path('teams/upload/', AddNewTeamView.as_view(), name='add_new_team'),
     path('bets/upload/', AddNewBetView.as_view(), name='add_new_bet'),
 
-    path('game/<int:pk>/', games_view, name='game'),
+    path('game/<int:pk>/', game_view, name='game'),
 
     path('showmyteams/', my_teams_view, name='my_teams'),
     path('showteams/', teams_view, name='show_teams'),

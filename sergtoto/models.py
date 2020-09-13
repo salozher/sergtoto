@@ -117,6 +117,7 @@ class Game(models.Model):
     team_b = models.ForeignKey(Team, related_name='name_b', on_delete=models.PROTECT)
     score_team_a = models.IntegerField(default=0)
     score_team_b = models.IntegerField(default=0)
+    game_is_started = models.BooleanField(default=False)
     game_is_played = models.BooleanField(default=False)
     # in game_result field following values are possible:
     # 1: team_a is a winner
@@ -148,11 +149,10 @@ class Bet(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    # in game_result field following values are possible:
-    # 1: team_a is a winner
-    # 2: team_b is a winner
-    # 3: draw
-    game_result = models.IntegerField()
+    team_a_win = models.BooleanField(default=False, blank=True)
+    team_b_win = models.BooleanField(default=False, blank=True)
+    draw = models.BooleanField(default=False, blank=True)
+
 
     def __str__(self):
         return self.game.contest.contest_date.__str__() + " @" + self.game.game_time.__str__() \
