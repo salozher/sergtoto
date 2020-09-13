@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
     <script src="{% static 'js/jquery.js' %}"></script>
     {% if user.is_authenticated %}
@@ -16,9 +17,16 @@
         <div class="col-lg-9">
             {% for game in  games %}
                 <div class="list-group-item">
-                    <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                    <h3>{{ game.team_a }} play against {{ game.team_b }}</h3>
-                <button></button>
+                    <div class="list-group-horizontal">
+                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                        <h4>{{ game.team_a }}
+                            <h4>play against
+                                <h4>{{ game.team_b }}
+                                    <h4>{{ game.pk }}</h4>
+
+                                    <a href="{% url 'game' game.pk %}">Make your Bet</a>
+
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -32,26 +40,46 @@
         </a>
     {% endif %}
 
-    {#    <script>#}
+    {#    <script type="text/text/javascript">#}
     {#        $(document).ready(function () {#}
-    {#            $('.addtocart').on('click', function (e) {#}
+    {#            $('.savebet').on('click', function (e) {#}
     {#                e.preventDefault()#}
-    {#                product_slug = $(this).attr('data-slug')#}
-    {#                item_product_id = $(this).attr('data-id')#}
-    {#                data = {product_slug: product_slug}#}
-    {#                console.log(product_slug)#}
+    {#                game_pk = $(this).attr('data-pk')#}
+    {#item_product_id = $(this).attr('data-id')#}
+    {#data = {product_slug: product_slug}#}
+    {#                console.log(game_pk)#}
     {#                $.ajax({#}
-    {#                    type: 'GET',#}
-    {#                    url: '{% url "add_to_cart" %}',#}
-    {#                    data: data,#}
-    {#                    success: function (data) {#}
-    {#                        console.log(item_product_id)#}
-    {#                        $('.product-item-' + item_product_id).css('display', 'none')#}
-    {#                        $("#cart_count").html(data.cart_total)#}
-    {#                        location.reload();#}
+    {#                    type: 'POST',#}
+    {#                    url: "{% url 'make_bet'  %}",#}
+    {#                    data: $('form').serialize(),#}
+    {#                    success: function () {#}
+    {#                        alert('created');#}
     {#                    }#}
     {#                })#}
     {#            })#}
     {#        })#}
     {#    </script>#}
+
+    {#        <script>#}
+    {#            $(document).ready(function () {#}
+    {#                $('.addtocart').on('click', function (e) {#}
+    {#                    e.preventDefault()#}
+    {#                    product_slug = $(this).attr('data-slug')#}
+    {#                    item_product_id = $(this).attr('data-id')#}
+    {#                    data = {product_slug: product_slug}#}
+    {#                    console.log(product_slug)#}
+    {#                    $.ajax({#}
+    {#                        type: 'POST',#}
+    {#                        url: '{% url "add_to_cart" %}',#}
+    {#                        data: data,#}
+    {#                        success: function (data) {#}
+    {#                            console.log(item_product_id)#}
+    {#                            $('.product-item-' + item_product_id).css('display', 'none')#}
+    {#                            $("#cart_count").html(data.cart_total)#}
+    {#                            location.reload();#}
+    {#                        }#}
+    {#                    })#}
+    {#                })#}
+    {#            })#}
+    {#        </script>#}
 {% endblock content %}
