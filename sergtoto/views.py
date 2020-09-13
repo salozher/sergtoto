@@ -9,15 +9,80 @@ from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameF
 from .models import MyUser, Team, Game, Contest, Bet
 
 
+
+
+
+def games_view(request, pk):
+    if request.method == 'POST':
+        game = Game.objects.get(pk=pk)
+        # create a form instance and populate it with data from the request:
+        form = AddNewBetForm(request.POST)
+        # form.instance.amount =
+        checked_radiobuttons = request.POST.getlist('checks[]')
+        winner = checked_radiobuttons[0]
+        form.instance.user = request.user
+        form.instance.game = game
+        if winner == '1':
+            form.instance.team_a_win = True
+        elif winner == '2':
+            form.instance.team_b_win = True
+        elif winner == '3':
+            form.instance.draw = True
+        if form.is_valid():
+            form.save()
+        return redirect('bets_history')
+    else:
+        # form = AddNewBetForm()
+        # contests = Contest.objects.all()
+        # games = Game.objects.all()
+        # checked_radiobuttons = request.POST.getlist('checks')
+        # context = {
+        #     'form': form,
+        #     'contests': contests,
+        #     'games': games,
+        #     'checked_radiobuttons': checked_radiobuttons,
+        # }
+        # returns render(request, template of certain product or element, context dictionary)
+        return redirect('bets_history')
+
 def home_view(request):
     contests = Contest.objects.all()
     games = Game.objects.all()
     context = {
         'contests': contests,
-        "games": games,
+        'games': games,
     }
     # returns render(request, template of certain product or element, context dictionary)
     return render(request, 'home.html', context)
+
+
+
+def make_bet(request, pk):
+    if request.method == 'POST':
+        game = Game.objects.get(pk=pk)
+        # create a form instance and populate it with data from the request:
+        form = AddNewBetForm(request.POST)
+        # form.instance.amount =
+        checked_radiobuttons = request.POST.getlist('checks[]')
+        winner = checked_radiobuttons[0]
+        form.instance = request.user.id
+        form.instance.game_id = game.id
+        if winner == '1':
+            form.instance.team_a_win = True
+        elif winner == '2':
+            form.instance.team_b_win = True
+        elif winner == '3':
+            form.instance.draw = True
+        if form.is_valid():
+            form.save()
+            # game = form.instance.
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL: destination example: contest/upload/
+            return HttpResponseRedirect('betshistory')
+        # return redirect('bets_history')
+
+
 
 
 def teams_view(request):
@@ -76,6 +141,7 @@ class AddNewBetView(CreateView):
 
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
+        form.instance.team_a_win = True
         return super(AddNewBetView, self).form_valid(form)
 
 
