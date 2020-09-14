@@ -113,8 +113,8 @@ class PlayedGames(models.Manager):
 
 class Game(models.Model):
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
-    team_a = models.ForeignKey(Team, related_name='name_a', on_delete=models.PROTECT)
-    team_b = models.ForeignKey(Team, related_name='name_b', on_delete=models.PROTECT)
+    team_a = models.ForeignKey(Team, related_name='name_a', on_delete=models.CASCADE)
+    team_b = models.ForeignKey(Team, related_name='name_b', on_delete=models.CASCADE)
     score_team_a = models.IntegerField(default=0)
     score_team_b = models.IntegerField(default=0)
     game_is_started = models.BooleanField(default=False)

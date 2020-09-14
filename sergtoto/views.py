@@ -4,12 +4,10 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
+from itertools import combinations
 
 from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm
 from .models import MyUser, Team, Game, Contest, Bet
-
-
-
 
 
 def game_view(request, pk):
@@ -32,9 +30,10 @@ def game_view(request, pk):
             form.save()
         return redirect('my_bets_history')
     else:
+        game = Game.objects.get(pk=pk)
         form = AddNewBetForm()
-        contests = Contest.objects.all()
-        games = Game.objects.all()
+        contests = Contest.objects.all
+        games = Game.objects.filter(pk=game.pk)
         checked_radiobuttons = request.POST.getlist('checks')
         context = {
             'form': form,
@@ -45,9 +44,11 @@ def game_view(request, pk):
         return render(request, 'game_bet.html', context)
         # return redirect('bets_history')
 
+
 def home_view(request):
     contests = Contest.objects.all()
     games = Game.objects.all()
+
     context = {
         'contests': contests,
         'games': games,
@@ -55,6 +56,29 @@ def home_view(request):
     # returns render(request, template of certain product or element, context dictionary)
     return render(request, 'home.html', context)
 
+
+def generate_tournament(request, slug):
+    contest = Contest.objects.get(slug=slug)
+    existinggames = Game.objects.filter(contest=contest)
+    if existinggames.count() < 1:
+
+        contest = Contest.objects.get(slug=slug)
+        teams = Team.objects.all()
+        teamsidlist = []
+        for team in teams:
+            teamsidlist.append(team.id)
+
+        games = list(combinations(teamsidlist, 2))
+        for game in games:
+            newgame = Game()
+            newgame.team_a = Team.objects.get(id=int(game[0]))
+            newgame.team_b = Team.objects.get(id=int(game[1]))
+            newgame.contest = contest
+            newgame.game_time = "10:00:00"
+            newgame.save()
+    else:
+        pass
+    return redirect('home')
 
 
 def make_bet(request, pk):
@@ -81,8 +105,6 @@ def make_bet(request, pk):
             # redirect to a new URL: destination example: contest/upload/
             return HttpResponseRedirect('betshistory')
         # return redirect('bets_history')
-
-
 
 
 def teams_view(request):
@@ -113,13 +135,13 @@ def team_view(request, slug):
 
 def contest_games_view(request, slug):
     contest = Contest.objects.get(slug=slug)
-    games = contest.game.objects.all()
+    games = Game.objects.filter(contest=contest.id)
     complete_games = games.filter(game_is_played=True)
     context = {
         'contest': contest,
         'games': games,
     }
-    return render(request, 'contestgames.html', context)
+    return render(request, 'contest_games.html', context)
 
 
 class AddNewTeamView(CreateView):

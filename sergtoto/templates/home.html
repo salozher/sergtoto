@@ -9,7 +9,18 @@
             <div class="list-group">
                 <div class="row">
                     {% for contest in contests %}
-                        <a href="#" class="list-group-item">Contest on {{ contest.contest_date }}</a>
+                        <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest
+                            on {{ contest.contest_date }}
+                            <br>
+                            games:
+                            {% for game in games %}
+                                {% if game.contest_id == contest.id %}
+                                    *
+                                {% endif %}
+
+                            {% endfor %}
+                        <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate New Games for Contest</a>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
@@ -19,12 +30,12 @@
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
                         <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                        <h4>{{ game.team_a }}
-                            <h4>play against
-                                <h4>{{ game.team_b }}
-                                    <h4>{{ game.pk }}</h4>
+                        <h4>{{ game.team_a }}</h4>
+                        <h4>play against</h4>
+                        <h4>{{ game.team_b }}</h4>
+                        <h4>{{ game.pk }}</h4>
 
-                                    <a href="{% url 'game' game.pk %}">Make your Bet</a>
+                        <a href="{% url 'game' game.pk %}">Make your Bet</a>
 
                     </div>
                 </div>

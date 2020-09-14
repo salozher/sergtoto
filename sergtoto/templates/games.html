@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    {% if user.is_authenticated %}
+        <h1 class="my-4">Serg's Totoooo!</h1>
+        <div class="col-lg-3">
+            <div class="list-group">
+                <div class="row">
+{#                    {% for contest in contests %}#}
+{#                        <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest#}
+{#                            on {{ contest.contest_date }}#}
+{#                            <br>#}
+{#                            games:#}
+{#                            {% for game in games %}#}
+{#                                {% if game.contest_id == contest.id %}#}
+{#                                    *#}
+{#                                {% endif %}#}
+{##}
+{#                            {% endfor %}#}
+{#                        </a>#}
+{#                    {% endfor %}#}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            {% for game in  games %}
+                <div class="list-group-item">
+                    <div class="list-group-horizontal">
+                        <p>game</p>
+{#                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>#}
+{#                        <h4>{{ game.team_a }}</h4>#}
+{#                        <h4>play against</h4>#}
+{#                        <h4>{{ game.team_b }}</h4>#}
+{#                        <h4>{{ game.pk }}</h4>#}
+{##}
+{#                        <a href="{% url 'game' game.pk %}">Make your Bet</a>#}
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+{% endblock content %}

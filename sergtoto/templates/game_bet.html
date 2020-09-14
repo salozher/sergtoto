@@ -8,9 +8,7 @@
         <div class="col-lg-3">
             <div class="list-group">
                 <div class="row">
-                    {% for contest in contests %}
-                        <a href="#" class="list-group-item">Contest on {{ contest.contest_date }}</a>
-                    {% endfor %}
+                    <h2>Please make your bet on this game:</h2>
                 </div>
             </div>
         </div>
@@ -26,7 +24,7 @@
                                 <label for="radio-one">Will win the game(1)</label></h4>
                             <h4>play against
                                 <input type="radio" id="3" name="checks[]" value="3" checked/>
-                                <label for="radio-three">Draw!(3)</label></h4>
+                                <label for="radio-three">It will be a draw!(3)</label></h4>
                             <h4>{{ game.team_b }}
                                 <input type="radio" id="2" name="checks[]" value="2"/>
                                 <label for="radio-two">Will win the game(2)</label></h4>
