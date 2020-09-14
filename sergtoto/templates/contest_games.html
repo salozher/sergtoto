@@ -8,9 +8,10 @@
         <div class="col-lg-3">
             <div class="list-group">
                 <div class="row">
-
+                    <h3>List of games for Contest <br> {{ contest.contest_date }}</h3>
                     {% for contest in contests %}
-                        <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest on {{ contest.contest_date }}</a>
+                        <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest
+                            on {{ contest.contest_date }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -19,13 +20,11 @@
             {% for game in  games %}
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
-                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                        <h4>{{ game.team_a }}
-                            <h4>play against
-                                <h4>{{ game.team_b }}
-                                    <h4>{{ game.pk }}</h4>
-
-                                    <a href="{% url 'game' game.pk %}">Make your Bet</a>
+                        <h4><a href="{% url 'game' game.pk %}">Make your Bet for
+                            Game: </a>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                        <h4>{{ game.team_a }}</h4>
+                        <h4>play against</h4>
+                        <h4>{{ game.team_b }}</h4>
 
                     </div>
                 </div>

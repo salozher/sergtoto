@@ -7,20 +7,25 @@
         <h1 class="my-4">Serg's Totoooo!</h1>
         <div class="col-lg-3">
             <div class="list-group">
-                <div class="row">
+                <div class="row list-group-item">
                     {% for contest in contests %}
-                        <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest
-                            on {{ contest.contest_date }}
-                            <br>
-                            games:
-                            {% for game in games %}
-                                {% if game.contest_id == contest.id %}
-                                    *
-                                {% endif %}
+                        <div class="row list-group-item">
+                            <a href="{% url 'contest_games' contest.slug %}" class="">Contest
+                                on {{ contest.contest_date }}
+                                <br>
+                                games:
+                                {% for game in games %}
+                                    {% if game.contest_id == contest.id %}
+                                        *
+                                    {% endif %}
 
-                            {% endfor %}
-                        <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate New Games for Contest</a>
-                        </a>
+                                {% endfor %}
+                                {% if user.is_admin %}
+                                    </a><a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate
+                                    New
+                                    Games for Contest</a>
+                                {% endif %}
+                        </div>
                     {% endfor %}
                 </div>
             </div>
@@ -29,13 +34,30 @@
             {% for game in  games %}
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
-                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                        <h4>{{ game.team_a }}</h4>
-                        <h4>play against</h4>
-                        <h4>{{ game.team_b }}</h4>
-                        <h4>{{ game.pk }}</h4>
+                        {% if game.game_is_played %}
+                            <h4> Game is already played! {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                            <h4>{{ game.team_a }}</h4>
+                            {% if game.score_team_a > game.score_team_b %} <h3>The Winner!!!</h3> {% endif %}
+                            <h4>Played against</h4>
+                            <h4>{{ game.team_b }}</h4>
+                        {% elif game.game_is_started %}
+                            <h4> Game is already started! {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                            <h4>{{ game.team_a }}</h4>
+                            <h4>playing NOW against</h4>
+                            <h4>{{ game.team_b }}</h4>
+                        {% elif game.game_is_started is not True %}
+                            <h4><a href="{% url 'game' game.pk %}">Make your Bet for
+                                Game: </a> {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                            <h4>{{ game.team_a }}</h4>
+                            <h4>Will play against</h4>
+                            <h4>{{ game.team_b }}</h4>
 
-                        <a href="{% url 'game' game.pk %}">Make your Bet</a>
+{#                        {{ game.contest.contest_date }} at {{ game.game_time }}</h4>#}
+{#                        <h4>{{ game.team_a }}</h4>#}
+{#                        <h4>play against</h4>#}
+{#                        <h4>{{ game.team_b }}</h4>#}
+                        {#                        <h4>{{ game.pk }}</h4>#}
+                        {% endif %}
 
                     </div>
                 </div>

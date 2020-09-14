@@ -28,7 +28,7 @@
                             <h4>{{ game.team_b }}
                                 <input type="radio" id="2" name="checks[]" value="2"/>
                                 <label for="radio-two">Will win the game(2)</label></h4>
-                            <h4>{{ game.pk }}</h4>
+{#                            <h4>{{ game.pk }}</h4>#}
                             <td>
                                 <form action="{% url 'game' game.pk %}" method="post">
                                 {% csrf_token %}
