@@ -39,14 +39,13 @@
                                 With a score
                                 <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h4>
                             <h4>
-                                {% if game.score_team_a > game.score_team_b %}
-                                    <b>{% endif %}
-                                {{ game.team_a }} <u>{{ game.score_team_a }} </u></b> :
+                                <u>{% if game.score_team_a > game.score_team_b %}<b>{% endif %}
+                                    {{ game.team_a }} {{ game.score_team_a }}</b>
+                                    <b> :</b>
+                                    {% if game.score_team_b == game.score_team_a %} {% endif %}
 
-                                {% if game.score_team_b == game.score_team_a %} {% endif %}
-
-                                {% if game.score_team_b > game.score_team_a %} <b>{% endif %}
-                                <u>{{ game.score_team_b }}</u> {{ game.team_b }}</b>
+                                    {% if game.score_team_b > game.score_team_a %}<b>{% endif %}
+                                    {{ game.score_team_b }} {{ game.team_b }}</u></b>
                             </h4>
                         {% elif game.game_is_started %}
                             <h4> Game is already started! {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
