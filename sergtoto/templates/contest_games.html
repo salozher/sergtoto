@@ -20,11 +20,17 @@
             {% for game in  games %}
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
-                        <h4><a href="{% url 'game' game.pk %}">Make your Bet for
-                            Game: </a>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                        <h4>{{ game.team_a }}</h4>
-                        <h4>play against</h4>
-                        <h4>{{ game.team_b }}</h4>
+                        {% if game.game_is_started is not True %}
+                            <h4><a href="{% url 'game' game.pk %}">Make your Bet for
+                                Game: </a> {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                            <h4>
+                                <u>{{ game.team_a }}</u>
+                            </h4>
+                            <h4>Will play against</h4>
+                            <h4>
+                                <u>{{ game.team_b }}</u>
+                            </h4>
+                        {% endif %}
 
                     </div>
                 </div>

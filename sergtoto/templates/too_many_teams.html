@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    {% if user.is_authenticated %}
+        <h1 class="my-4">Serg's Totoooo!</h1>
+        <div class="col-lg-3">
+            <h1>WARNING: </h1>
+        </div>
+        <div class="col-lg-9">
+            <h1>Cannot add a new team. Too many teams!!!</h1>
+        </div>
+    {% endif %}
+
+{% endblock content %}

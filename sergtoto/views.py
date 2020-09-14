@@ -135,7 +135,7 @@ def team_view(request, slug):
 
 def contest_games_view(request, slug):
     contest = Contest.objects.get(slug=slug)
-    games = Game.objects.filter(contest=contest.id)
+    games = Game.objects.filter(contest=contest.id, game_is_started=False, game_is_played=False)
     complete_games = games.filter(game_is_played=True)
     context = {
         'contest': contest,
@@ -151,8 +151,20 @@ class AddNewTeamView(CreateView):
     template_name = 'add_new_team.html'
 
     def form_valid(self, form):
-        form.instance.added_by = self.request.user
-        return super(AddNewTeamView, self).form_valid(form)
+        existingteams = Team.objects.all()
+        if existingteams.count() < 5:
+            form.instance.added_by = self.request.user
+            return super(AddNewTeamView, self).form_valid(form)
+        else:
+            return redirect('too_many_teams_warning')
+
+
+def too_many_teams_view(request):
+    teams = Team.objects.all()
+    context = {
+        'teams': teams,
+    }
+    return render(request, 'too_many_teams.html', context)
 
 
 class AddNewBetView(CreateView):

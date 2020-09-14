@@ -17,7 +17,8 @@ from .views import (
     AddNewGameView,
     make_bet,
     game_view,
-    generate_tournament
+    generate_tournament,
+    too_many_teams_view,
 )
 
 urlpatterns = [
@@ -43,6 +44,7 @@ urlpatterns = [
     path('showteams/', teams_view, name='show_teams'),
     path('betshistory/', bets_history, name='bets_history'),
     path('mybetshistory/', my_bets_history, name='my_bets_history'),
+    path('toomanyteamswarning/', too_many_teams_view, name='too_many_teams_warning'),
 
 ]
 
