@@ -35,28 +35,38 @@
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
                         {% if game.game_is_played %}
-                            <h4> Game is already played! {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                            <h4>{{ game.team_a }}</h4>
-                            {% if game.score_team_a > game.score_team_b %} <h3>The Winner!!!</h3> {% endif %}
-                            <h4>Played against</h4>
-                            <h4>{{ game.team_b }}</h4>
+                            <h4> Game is already played on {{ game.contest.contest_date }} at {{ game.game_time }}
+                                With a score
+                                <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h4>
+                            <h4>
+                                {% if game.score_team_a > game.score_team_b %}
+                                    <b>{% endif %}
+                                {{ game.team_a }} <u>{{ game.score_team_a }} </u></b> :
+
+                                {% if game.score_team_b == game.score_team_a %} {% endif %}
+
+                                {% if game.score_team_b > game.score_team_a %} <b>{% endif %}
+                                <u>{{ game.score_team_b }}</u> {{ game.team_b }}</b>
+                            </h4>
                         {% elif game.game_is_started %}
                             <h4> Game is already started! {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                            <h4>{{ game.team_a }}</h4>
+                            <h4>
+                                <u>{{ game.team_a }}</u>
+                            </h4>
                             <h4>playing NOW against</h4>
-                            <h4>{{ game.team_b }}</h4>
+                            <h4>
+                                <u>{{ game.team_b }}</u>
+                            </h4>
                         {% elif game.game_is_started is not True %}
                             <h4><a href="{% url 'game' game.pk %}">Make your Bet for
                                 Game: </a> {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
-                            <h4>{{ game.team_a }}</h4>
+                            <h4>
+                                <u>{{ game.team_a }}</u>
+                            </h4>
                             <h4>Will play against</h4>
-                            <h4>{{ game.team_b }}</h4>
-
-{#                        {{ game.contest.contest_date }} at {{ game.game_time }}</h4>#}
-{#                        <h4>{{ game.team_a }}</h4>#}
-{#                        <h4>play against</h4>#}
-{#                        <h4>{{ game.team_b }}</h4>#}
-                        {#                        <h4>{{ game.pk }}</h4>#}
+                            <h4>
+                                <u>{{ game.team_b }}</u>
+                            </h4>
                         {% endif %}
 
                     </div>

@@ -108,6 +108,7 @@ pre_save.connect(pre_save_contest_slug, sender=Contest)
 
 class PlayedGames(models.Manager):
     def all(self, *args, **kwargs):
+        # return super(PlayedGames, self).get_queryset().filter(game_is_played=False)
         return super(PlayedGames, self).get_queryset().filter(game_is_played=False)
 
 
@@ -126,7 +127,7 @@ class Game(models.Model):
     game_result = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
     game_time = models.TimeField(default=timezone.now().time(), blank=False)
-    objects = PlayedGames()
+    # objects = PlayedGames()
 
     def __str__(self):
         return self.contest.contest_date.__str__() + " " + (self.game_time).__str__() + " " \
@@ -152,7 +153,6 @@ class Bet(models.Model):
     team_a_win = models.BooleanField(default=False, blank=True)
     team_b_win = models.BooleanField(default=False, blank=True)
     draw = models.BooleanField(default=False, blank=True)
-
 
     def __str__(self):
         return self.game.contest.contest_date.__str__() + " @" + self.game.game_time.__str__() \
