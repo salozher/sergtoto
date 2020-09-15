@@ -9,7 +9,7 @@
             <div class="list-group">
                 <div class="row list-group-item">
                     {% for contest in contests %}
-                        <div class="row list-group-item">
+                        <div class="row list-group-item " style="background-color:palegoldenrod;">
                             <a href="{% url 'contest_games' contest.slug %}" class="">Contest
                                 on {{ contest.contest_date }}
                                 <br>
@@ -78,7 +78,7 @@
         <h4>For all those accounts the password is: <br>password</h4>
         <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>
         <a href="{% url 'login' %}">
-            <button class="btn btn-danger btn-block">Login</button>
+            <button class="btn btn-success btn-block">Login</button>
         </a>
     {% endif %}
 

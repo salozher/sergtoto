@@ -10,6 +10,7 @@ from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameF
 from .models import MyUser, Team, Game, Contest, Bet
 
 
+# here you can make your bet
 def game_view(request, pk):
     if request.method == 'POST':
         game = Game.objects.get(pk=pk)
@@ -53,7 +54,6 @@ def home_view(request):
         'contests': contests,
         'games': games,
     }
-    # returns render(request, template of certain product or element, context dictionary)
     return render(request, 'home.html', context)
 
 
@@ -74,7 +74,8 @@ def generate_tournament(request, slug):
             newgame.team_a = Team.objects.get(id=int(game[0]))
             newgame.team_b = Team.objects.get(id=int(game[1]))
             newgame.contest = contest
-            newgame.game_time = "10:00:00"
+            newgame.game_time = contest.start_time
+
             newgame.save()
     else:
         pass
@@ -159,6 +160,13 @@ class AddNewTeamView(CreateView):
             return redirect('too_many_teams_warning')
 
 
+def delete_team(request, pk):
+    if request.method == 'POST':
+        team = Team.objects.get(pk=pk)
+        team.delete()
+    return redirect('my_teams')
+
+
 def too_many_teams_view(request):
     teams = Team.objects.all()
     context = {
@@ -199,13 +207,6 @@ class AddNewGameView(CreateView):
     def form_valid(self, form):
         form.instance.user_id = self.request.user.id
         return super(AddNewGameView, self).form_valid(form)
-
-
-def delete_team(request, pk):
-    if request.method == 'POST':
-        team = Team.objects.get(pk=pk)
-        team.delete()
-    return redirect('my_teams')
 
 
 def bets_history(request):

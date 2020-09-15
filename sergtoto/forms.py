@@ -27,7 +27,7 @@ class AddNewContestForm(forms.ModelForm):
 
     class Meta:
         model = Contest
-        fields = ('contest_date',)
+        fields = ('contest_date', 'start_time', 'game_length', 'pauza_length')
 
     def __init__(self, *args, **kwargs):
         super(AddNewContestForm, self).__init__(*args, **kwargs)

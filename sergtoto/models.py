@@ -89,6 +89,9 @@ class Contest(models.Model):
     contest_started = models.BooleanField(default=False)
     contest_completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
+    start_time = models.TimeField(default="09:00:00")
+    game_length = models.IntegerField(default=10)
+    pauza_length = models.IntegerField(default=5)
 
     def __str__(self):
         return "Contest date: " + (self.contest_date).__str__()
@@ -127,6 +130,7 @@ class Game(models.Model):
     game_result = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
     game_time = models.TimeField(default=timezone.now().time(), blank=False)
+
     # objects = PlayedGames()
 
     def __str__(self):
