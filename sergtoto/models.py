@@ -93,7 +93,7 @@ class Contest(models.Model):
     pauza_length = models.IntegerField(default=5)
 
     def __str__(self):
-        return "Contest date: " + (self.contest_date).__str__()
+        return "Contest date: " + (self.contest_start_date).__str__()
 
     def delete(self, *args, **kwargs):
         super(Contest, self).delete(*args, **kwargs)

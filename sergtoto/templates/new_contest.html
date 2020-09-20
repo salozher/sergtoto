@@ -39,7 +39,7 @@
 <div class="input-group date" id="date" data-target-input="nearest">
     <h2>Add new Contest</h2>
 
-    <input type="text" class="form-control datetimepicker-input" data-target="#id_contest_start_date"/>
+{#    <input type="text" class="form-control datetimepicker-input" data-target="#id_contest_start_date"/>#}
     <div class="input-group-append" data-target="#id_contest_start_date" data-toggle="datetimepicker">
         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         <form method="post" enctype="multipart/form-data">
@@ -54,14 +54,10 @@
 </div>
 
 
-
-
-
-
 <script>
     $(function () {
         $("#id_contest_start_date").datetimepicker({
-            format: 'DD/MM/YYYY HH:mm',
+            format: 'YYYY-MM-DD HH:mm:ss',
             pickDate: true,
             pickSeconds: false,
             pick12HourFormat: false
