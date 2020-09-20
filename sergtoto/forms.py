@@ -22,15 +22,13 @@ class AddNewBetForm(forms.ModelForm):
 
 
 class AddNewContestForm(forms.ModelForm):
-    # contest_date = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])
-    # contest_date = forms.DateTimeField(widget=DateTimePicker(), )
-    contest_date = forms.DateTimeField(
-        input_formats=['%d/%m/%Y %H:%M'],
-        widget=forms.DateTimeInput(attrs={
-            'class': 'form-control datetimepicker-input',
-            'data-target': '#datetimepicker1'
-        })
-    )
+    # contest_start_date = forms.DateTimeField(
+    #     input_formats=['%Y-%m-%d %H:%M'],
+    #     widget=forms.DateTimeInput(attrs={
+    #         'class': 'form-control datetimepicker-input',
+    #         'data-target': '#id_contest_start_date'
+    #     })
+    # )
 
     class Meta:
         model = Contest
