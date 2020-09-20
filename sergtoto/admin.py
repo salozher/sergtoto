@@ -77,9 +77,7 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(MyUser, UserAdmin)
-# admin.site.unregister(Group)
 admin.site.register(Team)
 admin.site.register(Contest)
 admin.site.register(Game)
 admin.site.register(Bet)
-# admin.site.register(PlayedGames)

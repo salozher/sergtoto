@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'sergtoto',
     'crispy_forms',
     'tempus_dominus',
-    'datetimewidget',
+    'bootstrap4_datetime',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +131,5 @@ STATICFILES_DIRS = (
 )
 
 AUTH_USER_MODEL = 'sergtoto.MyUser'
+
+FORM_RENDERER = 'django.forms.renderers.DjangoTemplates'

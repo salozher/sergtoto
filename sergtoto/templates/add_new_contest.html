@@ -5,9 +5,9 @@
 
     <link rel="stylesheet" href="{% static "css/datepicker.min.css" %}"/>
 
-
     <script src="{% static 'js/jquery-3.3.1.slim.min.js' %}"></script>
     <script src="{% static 'js/datepicker.min.js' %}"></script>
+
 
     <h2>Add new Contest</h2>
     <form method="post" enctype="multipart/form-data">
@@ -15,14 +15,37 @@
         {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Save Contest</button>
     </form>
+    {##}
+    {#    <div class=" date input-group" id="datetimepicker_id_datetime">#}
+    {#        <input class=" form-control" id="id_datetime" name="datetime" type="text" required/>#}
+    {#    </div>#}
+    {##}
+    {##}
+    {#    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">#}
+    {#        {{ form.date }}#}
+    {#        <input class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">#}
+    {#        <div class="input-group-text"><i class="fa fa-calendar"></i></div>#}
+    {#        </input>#}
+    {#    </div>#}
+
+    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+  {{ form.date }}
+  <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+
+
+
 
     <script>
         $(function () {
-            $("#id_contest_date").datepicker({
-                format: 'dd/mm/yyyy',
+            $("#datetimepicker1").datetimepicker({
+                format: 'DD/MM/YYYY HH:mm',
             });
         });
     </script>
+
 
 
 {% endblock %}

@@ -85,11 +85,10 @@ class PlayedGames(models.Manager):
 
 
 class Contest(models.Model):
-    contest_date = models.DateField(blank=True)
+    contest_start_date = models.DateTimeField(blank=True)
     contest_started = models.BooleanField(default=False)
     contest_completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
-    start_time = models.TimeField(default="09:00:00")
     game_length = models.IntegerField(default=10)
     pauza_length = models.IntegerField(default=5)
 
@@ -123,19 +122,13 @@ class Game(models.Model):
     score_team_b = models.IntegerField(default=0)
     game_is_started = models.BooleanField(default=False)
     game_is_played = models.BooleanField(default=False)
-    # in game_result field following values are possible:
-    # 1: team_a is a winner
-    # 2: team_b is a winner
-    # 3: draw
-    game_result = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
-    game_time = models.TimeField(default=timezone.now().time(), blank=False)
+    game_date_time = models.DateTimeField(default=timezone.now().time(), blank=False)
 
     # objects = PlayedGames()
 
     def __str__(self):
-        return self.contest.contest_date.__str__() + " " + (self.game_time).__str__() + " " \
-               + self.team_a.name + " vs " + self.team_b.name
+        return self.game_time.__str__() + " " + self.team_a.name + " vs " + self.team_b.name
 
     def delete(self, *args, **kwargs):
         super(Game, self).delete(*args, **kwargs)

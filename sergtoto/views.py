@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from itertools import combinations
 
-from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm
+from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, DateForm
 from .models import MyUser, Team, Game, Contest, Bet
 
 
@@ -69,16 +69,31 @@ def generate_tournament(request, slug):
             teamsidlist.append(team.id)
 
         games = list(combinations(teamsidlist, 2))
-        for game in games:
-            newgame = Game()
-            newgame.team_a = Team.objects.get(id=int(game[0]))
-            newgame.team_b = Team.objects.get(id=int(game[1]))
-            newgame.contest = contest
-            newgame.game_time = contest.start_time
+        gamestarttime = contest.start_time
+        while len(games) > 0:
+            for game in games:
+                counter = len(games)
+                currentexistinggames = Game.objects.filter(contest=contest, game_time=gamestarttime)
+                newgame = Game()
+                newgame.team_a = Team.objects.get(id=int(game[0]))
+                newgame.team_b = Team.objects.get(id=int(game[1]))
+                newgame.contest = contest
+                newgame.game_time = gamestarttime
+                if currentexistinggames.count() > 0:
+                    duplicateexist = False
+                    for oneofgames in currentexistinggames:
+                        if oneofgames.team_a.name == newgame.team_a.name or oneofgames.team_a.name == newgame.team_b.name or oneofgames.team_b.name == newgame.team_a.name or oneofgames.team_b.name == newgame.team_b.name:
+                            duplicateexist = True
 
-            newgame.save()
-    else:
-        pass
+                    if not duplicateexist:
+                        newgame.save()
+                        games.remove(game)
+                else:
+                    newgame.save()
+                    games.remove(game)
+
+            gamestarttime = gamestarttime + gamestarttime.minute + contest.game_length + contest.pauza_length
+            print(gamestarttime)
     return redirect('home')
 
 
@@ -189,9 +204,10 @@ class AddNewBetView(CreateView):
 
 class AddNewContestView(CreateView):
     model = Contest
-    form_class = AddNewContestForm
+    form_class = DateForm
     success_url = reverse_lazy('home')
-    template_name = 'add_new_contest.html'
+    template_name = 'new_contest.html'
+
 
     def form_valid(self, form):
         # form.instance.user_id = self.request.user.id

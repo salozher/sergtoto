@@ -1,5 +1,4 @@
 from django import forms
-from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 from django.contrib.admin.widgets import AdminDateWidget
 from .models import Team, Bet, Contest, Game
 
@@ -23,11 +22,19 @@ class AddNewBetForm(forms.ModelForm):
 
 
 class AddNewContestForm(forms.ModelForm):
-    contest_date = forms.DateField(input_formats=['%d/%m/%Y'])
+    # contest_date = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])
+    # contest_date = forms.DateTimeField(widget=DateTimePicker(), )
+    contest_date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
 
     class Meta:
         model = Contest
-        fields = ('contest_date', 'start_time', 'game_length', 'pauza_length')
+        fields = ('contest_start_date', 'game_length', 'pauza_length')
 
     def __init__(self, *args, **kwargs):
         super(AddNewContestForm, self).__init__(*args, **kwargs)
@@ -36,8 +43,24 @@ class AddNewContestForm(forms.ModelForm):
 class AddNewGameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('contest', 'team_a', 'team_b', 'game_time')
+        fields = ('contest', 'team_a', 'team_b', 'game_date_time')
 
     def __init__(self, *args, **kwargs):
         super(AddNewGameForm, self).__init__(*args, **kwargs)
 
+
+class DateForm(forms.ModelForm):
+    date = forms.DateTimeField(
+        input_formats=['%d/%m/%Y %H:%M'],
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control datetimepicker-input',
+            'data-target': '#datetimepicker1'
+        })
+    )
+
+    class Meta:
+        model = Contest
+        fields = ('contest_start_date', 'game_length', 'pauza_length')
+
+    def __init__(self, *args, **kwargs):
+        super(DateForm, self).__init__(*args, **kwargs)
