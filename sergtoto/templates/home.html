@@ -60,8 +60,8 @@
                             </h4>
                         {% elif game.game_is_started is not True %}
                             <h4>
-                                <a href="{% url 'game' game.pk %}">Make your Bet for Game at</a>
-                                {{ game.game_date_time }}
+                                <a href="{% url 'game' game.pk %}">Make your Bet for Game at
+                                {{ game.game_date_time }}</a>
                             </h4>
                             <h4>
                                 <u>{{ game.team_a }}</u>
