@@ -8,10 +8,10 @@
         <div class="col-lg-3">
             <div class="list-group">
                 <div class="row">
-                    <h3>List of games for Contest <br> {{ contest.contest_date }}</h3>
+                    <h3>List of games for Contest <br> {{ contest.contest_start_date }}</h3>
                     {% for contest in contests %}
                         <a href="{% url 'contest_games' contest.slug %}" class="list-group-item">Contest
-                            on {{ contest.contest_date }}</a>
+                            on {{ contest.contest_start_date }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -21,12 +21,15 @@
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
                         {% if game.game_is_started is not True %}
-                            <h4><a href="{% url 'game' game.pk %}">Make your Bet for
-                                Game: </a> {{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                            <h4>
+                                <a href="{% url 'game' game.pk %}">Make your Bet for Game at</a>
+                                {{ game.game_date_time }}</h4>
                             <h4>
                                 <u>{{ game.team_a }}</u>
                             </h4>
-                            <h4>Will play against</h4>
+                            <h4>
+                                Will play against
+                            </h4>
                             <h4>
                                 <u>{{ game.team_b }}</u>
                             </h4>

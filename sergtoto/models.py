@@ -128,7 +128,7 @@ class Game(models.Model):
     # objects = PlayedGames()
 
     def __str__(self):
-        return self.game_time.__str__() + " " + self.team_a.name + " vs " + self.team_b.name
+        return self.game_date_time.__str__() + " " + self.team_a.name + " vs " + self.team_b.name
 
     def delete(self, *args, **kwargs):
         super(Game, self).delete(*args, **kwargs)
@@ -152,7 +152,7 @@ class Bet(models.Model):
     draw = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
-        return self.game.contest.contest_date.__str__() + " @" + self.game.game_time.__str__() \
+        return self.game.contest.contest_start_date.__str__() + " @" + self.game.game_date_time.__str__() \
                + " " + self.game.team_a.name + " play against " + self.game.team_b.name \
                + " Bet amount: EUR " + self.amount.__str__()
 

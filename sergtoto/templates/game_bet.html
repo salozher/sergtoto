@@ -16,7 +16,7 @@
             {% for game in  games %}
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
-                        <h4>{{ game.contest.contest_date }} at {{ game.game_time }}</h4>
+                        <h4>{{ game.contest.contest_start_date }} at {{ game.game_date_time }}</h4>
                         {#                        <form class="form">#}
                         <form method="post" enctype="multipart/form-data">
                             <h4>{{ game.team_a }}
