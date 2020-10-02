@@ -5,42 +5,38 @@
     <script src="{% static 'js/jquery.js' %}"></script>
     {% if user.is_authenticated %}
         <h1 class="my-4">Serg's Totoooo!</h1>
-        <div class="col-lg-3">
-            <div class="list-group">
-                <div class="row">
-                    <h2>Please make your bet on this game:</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-9">
-            {% for game in  games %}
-                <div class="list-group-item">
-                    <div class="list-group-horizontal">
-                        <h4>{{ game.contest.contest_start_date }} at {{ game.game_date_time }}</h4>
-                        {#                        <form class="form">#}
-                        <form method="post" enctype="multipart/form-data">
-                            <h4>{{ game.team_a }}
-                                <input type="radio" id="1" name="checks[]" value="1"/>
-                                <label for="radio-one">Will win the game(1)</label></h4>
-                            <h4>play against
-                                <input type="radio" id="3" name="checks[]" value="3" checked/>
-                                <label for="radio-three">It will be a draw!(3)</label></h4>
-                            <h4>{{ game.team_b }}
-                                <input type="radio" id="2" name="checks[]" value="2"/>
-                                <label for="radio-two">Will win the game(2)</label></h4>
-{#                            <h4>{{ game.pk }}</h4>#}
-                            <td>
-                                <form action="{% url 'game' game.pk %}" method="post">
-                                {% csrf_token %}
-                                {{ form }}
-                                <button type="submit" value="Vote">Do
-                                    it
-                                </button>
-                                </form>
-                            </td>
+        <div class="container d-flex p-2">
+            <h2>Please make your bet on this game:</h2>
+
+            <div class="col-lg-9">
+                {% for game in  games %}
+                    <div class="list-group-item">
+                        <div class="list-group-horizontal">
+                            <h6>{{ game.contest.contest_start_date }} at {{ game.game_date_time }}</h6>
+                            {#                        <form class="form">#}
+                            <form method="post" enctype="multipart/form-data">
+                                <h6>{{ game.team_a }}
+                                    <input type="radio" id="1" name="checks[]" value="1"/>
+                                    <label for="radio-one">Will win the game(1)</label></h6>
+                                <h6>play against
+                                    <input type="radio" id="3" name="checks[]" value="3" checked/>
+                                    <label for="radio-three">It will be a draw!(3)</label></h6>
+                                <h6>{{ game.team_b }}
+                                    <input type="radio" id="2" name="checks[]" value="2"/>
+                                    <label for="radio-two">Will win the game(2)</label></h6>
+                                {#                            <h6>{{ game.pk }}</h6>#}
+                                <td>
+                                    <form action="{% url 'game' game.pk %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form }}
+                                        <button type="submit" value="Vote">Save bet
+                                        </button>
+                                    </form>
+                                </td>
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
 

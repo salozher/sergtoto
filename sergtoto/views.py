@@ -168,7 +168,7 @@ class AddNewTeamView(CreateView):
 
     def form_valid(self, form):
         existingteams = Team.objects.all()
-        if existingteams.count() < 5:
+        if existingteams.count() < 100:
             form.instance.added_by = self.request.user
             return super(AddNewTeamView, self).form_valid(form)
         else:

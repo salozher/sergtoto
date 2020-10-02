@@ -2,9 +2,11 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <script src="{% static 'js/jquery.js' %}"></script>
+
+    {#    <script src="{% static 'js/jquery.js' %}"></script>#}
     {% if user.is_authenticated %}
         <h1 class="my-4">Serg's Totoooo!</h1>
+        <div class="container d-flex p-2">
         <div class="col-lg-3">
             <div class="list-group">
                 <div class="row list-group-item">
@@ -35,11 +37,11 @@
                 <div class="list-group-item">
                     <div class="list-group-horizontal">
                         {% if game.game_is_played %}
-                            <h4> Game is already played on {{ game.contest.contest_start_date }}
+                            <h6> Game is already played on {{ game.contest.contest_start_date }}
                                 at {{ game.game_date_time }}
                                 With a score
-                                <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h4>
-                            <h4>
+                                <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h6>
+                            <h6>
                                 <u>{% if game.score_team_a > game.score_team_b %}<b>{% endif %}
                                     {{ game.team_a }} {{ game.score_team_a }}</b>
                                     <b> :</b>
@@ -47,41 +49,43 @@
 
                                     {% if game.score_team_b > game.score_team_a %}<b>{% endif %}
                                     {{ game.score_team_b }} {{ game.team_b }}</u></b>
-                            </h4>
+                            </h6>
                         {% elif game.game_is_started %}
-                            <h4> Game is already started! {{ game.contest.contest_start_date }}
-                                at {{ game.game_date_time }}</h4>
-                            <h4>
+                            <h6> Game is already started! {{ game.contest.contest_start_date }}
+                                at {{ game.game_date_time }}</h6>
+                            <h6>
                                 <u>{{ game.team_a }}</u>
-                            </h4>
-                            <h4>playing NOW against</h4>
-                            <h4>
+                            </h6>
+                            <h6>playing NOW against</h6>
+                            <h6>
                                 <u>{{ game.team_b }}</u>
-                            </h4>
+                            </h6>
                         {% elif game.game_is_started is not True %}
-                            <h4>
+                            <h6>
                                 <a href="{% url 'game' game.pk %}">Make your Bet for Game at
-                                {{ game.game_date_time }}</a>
-                            </h4>
-                            <h4>
+                                    {{ game.game_date_time }}</a>
+                            </h6>
+                            <h6>
                                 <u>{{ game.team_a }}</u>
-                            </h4>
-                            <h4>
+                            </h6>
+                            <h6>
                                 Will play against
-                            </h4>
-                            <h4>
+                            </h6>
+                            <h6>
                                 <u>{{ game.team_b }}</u>
-                            </h4>
+                            </h6>
                         {% endif %}
 
                     </div>
                 </div>
             {% endfor %}
         </div>
+        </div>
+
     {% else %}
         <h2>Hello Guest!<br> Welcome to Serg's Toto.<br>Please log in:</h2>
-        <h4>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h4>
-        <h4>For all those accounts the password is: <br>password</h4>
+        <h6>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h6>
+        <h6>For all those accounts the password is: <br>password</h6>
         <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>
         <a href="{% url 'login' %}">
             <button class="btn btn-success btn-block">Login</button>
