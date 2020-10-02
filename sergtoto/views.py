@@ -71,7 +71,7 @@ def generate_tournament(request, slug):
         games = list(combinations(teamsidlist, 2))
         gamestarttime = contest.contest_start_date
         while len(games) > 0:
-            for game in games:
+            for game in reversed(games):
                 counter = len(games)
                 currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
                 newgame = Game()
@@ -79,19 +79,21 @@ def generate_tournament(request, slug):
                 newgame.team_b = Team.objects.get(id=int(game[1]))
                 newgame.contest = contest
                 newgame.game_date_time = gamestarttime
+
                 if currentexistinggames.count() > 0:
                     duplicateexist = False
                     for oneofgames in currentexistinggames:
                         if oneofgames.team_a.name == newgame.team_a.name or oneofgames.team_a.name == newgame.team_b.name or oneofgames.team_b.name == newgame.team_a.name or oneofgames.team_b.name == newgame.team_b.name:
                             duplicateexist = True
 
-                    if not duplicateexist:
-                        newgame.save()
-                        games.remove(game)
-                else:
+                        if not duplicateexist:
+                            newgame.save()
+                            games.remove(game)
+                if currentexistinggames.count() == 0:
                     newgame.save()
                     games.remove(game)
-            minutesadded = datetime.timedelta(minutes=contest.game_length + contest.pauza_length)
+
+            minutesadded = datetime.timedelta(minutes=contest.game_length + contest.pause_length)
             gamestarttime = gamestarttime + minutesadded
             print(gamestarttime)
     return redirect('home')

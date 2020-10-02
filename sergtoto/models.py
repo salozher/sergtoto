@@ -90,7 +90,7 @@ class Contest(models.Model):
     contest_completed = models.BooleanField(default=False)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
     game_length = models.IntegerField(default=10)
-    pauza_length = models.IntegerField(default=5)
+    pause_length = models.IntegerField(default=5)
 
     def __str__(self):
         return "Contest date: " + (self.contest_start_date).__str__()

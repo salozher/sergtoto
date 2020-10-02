@@ -22,17 +22,10 @@ class AddNewBetForm(forms.ModelForm):
 
 
 class AddNewContestForm(forms.ModelForm):
-    # contest_start_date = forms.DateTimeField(
-    #     input_formats=['%Y-%m-%d %H:%M'],
-    #     widget=forms.DateTimeInput(attrs={
-    #         'class': 'form-control datetimepicker-input',
-    #         'data-target': '#id_contest_start_date'
-    #     })
-    # )
 
     class Meta:
         model = Contest
-        fields = ('contest_start_date', 'game_length', 'pauza_length')
+        fields = ('contest_start_date', 'game_length', 'pause_length')
 
     def __init__(self, *args, **kwargs):
         super(AddNewContestForm, self).__init__(*args, **kwargs)
@@ -41,7 +34,7 @@ class AddNewContestForm(forms.ModelForm):
 class AddNewGameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('contest', 'team_a', 'team_b', 'game_date_time')
+        fields = ('game_is_started', 'score_team_a', 'score_team_b', 'game_is_played')
 
     def __init__(self, *args, **kwargs):
         super(AddNewGameForm, self).__init__(*args, **kwargs)
@@ -58,7 +51,7 @@ class DateForm(forms.ModelForm):
 
     class Meta:
         model = Contest
-        fields = ('contest_start_date', 'game_length', 'pauza_length')
+        fields = ('contest_start_date', 'game_length', 'pause_length')
 
     def __init__(self, *args, **kwargs):
         super(DateForm, self).__init__(*args, **kwargs)
