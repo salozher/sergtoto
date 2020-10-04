@@ -6,7 +6,7 @@
     {#    <script src="{% static 'js/jquery.js' %}"></script>#}
     {% if user.is_authenticated %}
         <h1 class="my-4">Serg's Totoooo!</h1>
-        </a><a href="{% url 'generate_teams' %}" class="list-group-item" method="post">Generate 100 teams</a>
+        {#        </a><a href="{% url 'generate_teams' %}" class="list-group-item" method="post">Generate 100 teams</a>#}
         <div class="container d-flex p-2">
 
             <div class="col-lg-3">
@@ -25,18 +25,18 @@
                                         {% endif %}
                                         </a>
                                     {% endfor %}
-                                {#                                    {% if user.is_admin %}#}
-                                {#                                        #}
-                                {#                                        <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate#}
-                                {#                                            New#}
-                                {#                                            Games for Contest</a>#}
-                                {#                                    {% endif %}#}
+                                {% if user.is_admin %}
+
+                                    <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">
+                                        Generate Games Table</a>
+                                {% endif %}
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
             <div class="col-lg-9">
+                <h3>All Games List</h3>
                 {% for game in  games %}
                     <div class="list-group-item">
                         <div class="list-group-horizontal">
@@ -53,10 +53,16 @@
 
                                         {% if game.score_team_b > game.score_team_a %}<b>{% endif %}
                                         {{ game.score_team_b }} {{ game.team_b }}</u></b>
+                                    <a href="{% url 'bets_winners' game.slug %}" class="list-group-item" method="post"
+                                       style="background-color: #d4edda">
+                                        See winning bets</a>
                                 </h6>
                             {% elif game.game_is_started %}
-                                <a href="{% url 'update_game' game.slug %}">Update Game
-                                    {{ game.game_date_time }}</a>
+                                {% if user.is_admin %}
+                                    <a href="{% url 'update_game' game.slug %}" style="background-color: lawngreen">
+                                        ADMIN TASK: Update Game
+                                        {{ game.game_date_time }}</a>
+                                {% endif %}
                                 <h6> Game is already started! {{ game.contest.contest_start_date }}
                                     at {{ game.game_date_time }}
                                     Current score is
@@ -70,11 +76,18 @@
                                 </h6>
                             {% elif game.game_is_started is not True %}
                                 <h6>
-                                    <a href="{% url 'game' game.pk %}">Make your Bet for Game at
-                                        {{ game.game_date_time }}</a>
+                                    {% if not user.is_admin %}
+                                        <a href="{% url 'game' game.pk %}" style="background-color: palegoldenrod">
+                                            Make your Bet for Game at
+                                            {{ game.game_date_time }}</a>
+                                    {% endif %}
 
-                                    <br> <a href="{% url 'update_game' game.slug %}">Update Game
-                                    {{ game.game_date_time }}</a>
+                                    {% if user.is_admin %}
+                                    <a href="{% url 'update_game' game.slug %}" style="background-color: lawngreen">
+                                        ADMIN TASK: Update Game
+                                        {{ game.game_date_time }}</a>
+                                {% endif %}
+                                    <br>
                                 </h6>
                                 <h6>
                                     <u>{{ game.team_a }}</u>

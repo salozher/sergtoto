@@ -161,7 +161,7 @@ def team_view(request, slug):
 
 def contest_games_view(request, slug):
     contest = Contest.objects.get(slug=slug)
-    games = Game.objects.filter(contest=contest.id, game_is_started=False, game_is_played=False)
+    games = Game.objects.filter(contest=contest.id)
     complete_games = games.filter(game_is_played=True)
     context = {
         'contest': contest,
@@ -287,6 +287,17 @@ def bets_history(request):
         'games': games,
     }
     return render(request, 'bets_history.html', context)
+
+def bets_winners(request, slug):
+    game = Game.objects.get(slug=slug)
+    bets = Bet.objects.filter(bet_won=True, game=game)
+
+    context = {
+        'bets': bets,
+        'game': game,
+    }
+    return render(request, 'bets_winners.html', context)
+
 
 
 def my_bets_history(request):

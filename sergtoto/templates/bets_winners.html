@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <h1>Winning Bets</h1>
+    <h4>For a game {{ game }}</h4>
+    <div class="col-lg-9">
+        {% for bet in  bets %}
+            <div class="list-group-item">
+                <h5>{{ bet.user }} bet with €{{ bet.amount }} </h5>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}

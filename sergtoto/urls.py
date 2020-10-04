@@ -21,6 +21,7 @@ from .views import (
     too_many_teams_view,
     generate_teams,
     update_game,
+    bets_winners,
 )
 
 urlpatterns = [
@@ -31,6 +32,8 @@ urlpatterns = [
     # path('contest/<str:slug>/', contest_games_view(), name='contest_detail'),
     path('team/<str:slug>/', team_view, name='team_detail'),
     path('makebet/<int:pk>/', make_bet, name='make_bet'),
+    path('betswinners/<str:slug>/', bets_winners, name='bets_winners'),
+
     path('contest/upload/', AddNewContestView.as_view(), name='add_new_contest'),
     path('game/upload/', AddNewGameView.as_view(), name='add_new_game'),
     path('game/update/<str:slug>/', update_game, name='update_game'),

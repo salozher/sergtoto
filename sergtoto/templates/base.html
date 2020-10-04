@@ -135,13 +135,13 @@
             <ul class="nav navbar-nav">
 
                 <li>
-                <div class="dropdown">
-                    <a href="#" data-toggle="dropdown" role="button">
-                        Teams and Bets List
-                        {% if user.is_admin %}
-                            , Teams and Bets Management
-                        {% endif %}
-                    </a>
+                    <div class="dropdown">
+                        <a href="#" data-toggle="dropdown" role="button">
+                            Teams and Bets List
+                            {% if user.is_admin %}
+                                , ADMIN TASKS
+                            {% endif %}
+                        </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
                                 <a class="dropdown-item" href="{% url 'show_teams' %}">Teams List</a>
@@ -162,16 +162,14 @@
 
                             {% if user.is_admin %}
                                 <li>
-                                    <a class="dropdown-item" href="{% url 'add_new_contest' %}">ADMIN TASK: Add Contest</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'add_new_game' %}">ADMIN TASK: Add new Game</a>
+                                    <a class="dropdown-item" href="{% url 'add_new_contest' %}">ADMIN TASK: Add
+                                        Contest</a>
                                 </li>
 
                             {% endif %}
 
                         </ul>
-                </div>
+                    </div>
                 </li>
 
                 <ul class="form-inline my-2 my-lg-0 m-auto">
@@ -180,7 +178,7 @@
                     <li class="ml-xl-5 mr-xl-5"><a href="{% url 'logout' %}">Logout</a></li>
 
                     {% if user.is_admin %}
-                        <li class="ml-xl-5"><a href="{% url 'admin:index' %}">Admin Tasks</a></li>
+                        <li class="ml-xl-5"><a href="{% url 'admin:index' %}">Admin Console</a></li>
                     {% endif %}
 
                 </ul>
