@@ -6,6 +6,7 @@
     {#    <script src="{% static 'js/jquery.js' %}"></script>#}
     {% if user.is_authenticated %}
         <h1 class="my-4">Serg's Totoooo!</h1>
+        </a><a href="{% url 'generate_teams' %}" class="list-group-item" method="post">Generate 100 teams</a>
         <div class="container d-flex p-2">
 
         <div class="col-lg-3">

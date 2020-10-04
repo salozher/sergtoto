@@ -57,6 +57,17 @@ def home_view(request):
     return render(request, 'home.html', context)
 
 
+def generate_teams(request):
+    totalTeams = 100
+    for i in range(totalTeams):
+        newteam = Team()
+        newteam.name = i
+        newteam.description = i
+        newteam.added_by = request.user
+        newteam.save()
+    return redirect('home')
+
+
 def generate_tournament(request, slug):
     contest = Contest.objects.get(slug=slug)
     existinggames = Game.objects.filter(contest=contest)
@@ -83,7 +94,7 @@ def generate_tournament(request, slug):
 
             if currentexistinggames:
                 duplicateexist = False
-                currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
+                # currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
                 for oneofgames in currentexistinggames:
                     if oneofgames.team_a.id == newgame.team_a.id or oneofgames.team_a.id == newgame.team_b.id or oneofgames.team_b.id == newgame.team_a.id or oneofgames.team_b.id == newgame.team_b.id:
                         duplicateexist = True
@@ -106,9 +117,7 @@ def generate_tournament(request, slug):
 def make_bet(request, pk):
     if request.method == 'POST':
         game = Game.objects.get(pk=pk)
-        # create a form instance and populate it with data from the request:
         form = AddNewBetForm(request.POST)
-        # form.instance.amount =
         checked_radiobuttons = request.POST.getlist('checks[]')
         winner = checked_radiobuttons[0]
         form.instance = request.user.id
@@ -121,12 +130,7 @@ def make_bet(request, pk):
             form.instance.draw = True
         if form.is_valid():
             form.save()
-            # game = form.instance.
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL: destination example: contest/upload/
             return HttpResponseRedirect('betshistory')
-        # return redirect('bets_history')
 
 
 def teams_view(request):

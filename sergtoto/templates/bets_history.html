@@ -6,8 +6,18 @@
     <div class="col-lg-9">
         {% for bet in  bets %}
             <div class="list-group-item">
-                <h3>{{ bet.user }} make a bet of €{{ bet.amount }} </h3>
-                <p>for a game {{ bet.game }} with result {{ bet.game_result }}</p>
+                <h3>{{ bet.user }} bet with €{{ bet.amount }} </h3>
+                <p>for a game {{ bet.game }}
+                    <br>
+                    {% if bet.team_a_win %}
+                        that {{ bet.game.team_a.name }} will win the game
+                    {% elif bet.team_b_win %}
+                        that {{ bet.game.team_b.name }} will win the game
+                    {% elif bet.draw %}
+                        that it will be a draw
+                    {% endif %}
+
+                </p>
             </div>
         {% endfor %}
     </div>

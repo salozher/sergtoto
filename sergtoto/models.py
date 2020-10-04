@@ -123,7 +123,7 @@ class Game(models.Model):
     game_is_started = models.BooleanField(default=False)
     game_is_played = models.BooleanField(default=False)
     slug = models.SlugField(max_length=32, unique=True, editable=True)
-    game_date_time = models.DateTimeField(default=timezone.now().time(), blank=False)
+    game_date_time = models.DateTimeField(default=timezone.now(), blank=False)
 
     # objects = PlayedGames()
 
