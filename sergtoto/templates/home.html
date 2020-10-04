@@ -23,14 +23,14 @@
                                         {% if game.contest_id == contest.id %}
                                             *
                                         {% endif %}
-
-                                    {% endfor %}
-                                    {% if user.is_admin %}
                                         </a>
-                                        <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate
-                                            New
-                                            Games for Contest</a>
-                                    {% endif %}
+                                    {% endfor %}
+                                {#                                    {% if user.is_admin %}#}
+                                {#                                        #}
+                                {#                                        <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">Generate#}
+                                {#                                            New#}
+                                {#                                            Games for Contest</a>#}
+                                {#                                    {% endif %}#}
                             </div>
                         {% endfor %}
                     </div>
@@ -41,7 +41,7 @@
                     <div class="list-group-item">
                         <div class="list-group-horizontal">
                             {% if game.game_is_played %}
-                                <h6> Game is already played on {{ game.contest.contest_start_date }}
+                                <h6> Game is played on {{ game.contest.contest_start_date }}
                                     at {{ game.game_date_time }}
                                     With a score
                                     <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h6>
@@ -55,8 +55,12 @@
                                         {{ game.score_team_b }} {{ game.team_b }}</u></b>
                                 </h6>
                             {% elif game.game_is_started %}
+                                <a href="{% url 'update_game' game.slug %}">Update Game
+                                    {{ game.game_date_time }}</a>
                                 <h6> Game is already started! {{ game.contest.contest_start_date }}
-                                    at {{ game.game_date_time }}</h6>
+                                    at {{ game.game_date_time }}
+                                    Current score is
+                                    <b><u>{{ game.score_team_a }} : {{ game.score_team_b }}</u></b></h6>
                                 <h6>
                                     <u>{{ game.team_a }}</u>
                                 </h6>
@@ -69,8 +73,8 @@
                                     <a href="{% url 'game' game.pk %}">Make your Bet for Game at
                                         {{ game.game_date_time }}</a>
 
-                                   <br> <a href="{% url 'update_game' game.slug %}">Update Game
-                                        {{ game.game_date_time }}</a>
+                                    <br> <a href="{% url 'update_game' game.slug %}">Update Game
+                                    {{ game.game_date_time }}</a>
                                 </h6>
                                 <h6>
                                     <u>{{ game.team_a }}</u>

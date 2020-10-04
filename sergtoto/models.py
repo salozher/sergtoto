@@ -150,6 +150,8 @@ class Bet(models.Model):
     team_a_win = models.BooleanField(default=False, blank=True)
     team_b_win = models.BooleanField(default=False, blank=True)
     draw = models.BooleanField(default=False, blank=True)
+    bet_won = models.BooleanField(default=False, blank=True)
+    bet_loose = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.game.contest.contest_start_date.__str__() + " @" + self.game.game_date_time.__str__() \

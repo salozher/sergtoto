@@ -18,6 +18,10 @@
                     {% endif %}
 
                 </p>
+            {% if user == bet.user and bet.bet_won %}
+                <h4 style="background-color: #71dd8a"> And this bet won!!!</h4>
+
+                    {% endif %}
             </div>
         {% endfor %}
     </div>
