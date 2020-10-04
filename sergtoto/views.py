@@ -69,33 +69,44 @@ def generate_tournament(request, slug):
             teamsidlist.append(team.id)
 
         games = list(combinations(teamsidlist, 2))
+        workedoutgames = []
         gamestarttime = contest.contest_start_date
-        while len(games) > 0:
-            for game in reversed(games):
-                counter = len(games)
+
+        while games:
+            game = games.pop(0)
+
+            counter = len(games)
+            currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
+            newgame = Game()
+            newgame.team_a = Team.objects.get(id=int(game[0]))
+            newgame.team_b = Team.objects.get(id=int(game[1]))
+            newgame.contest = contest
+            newgame.game_date_time = gamestarttime
+
+            if currentexistinggames:
+                duplicateexist = False
                 currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
-                newgame = Game()
-                newgame.team_a = Team.objects.get(id=int(game[0]))
-                newgame.team_b = Team.objects.get(id=int(game[1]))
-                newgame.contest = contest
-                newgame.game_date_time = gamestarttime
+                for oneofgames in currentexistinggames:
 
-                if currentexistinggames.count() > 0:
-                    duplicateexist = False
-                    for oneofgames in currentexistinggames:
-                        if oneofgames.team_a.name == newgame.team_a.name or oneofgames.team_a.name == newgame.team_b.name or oneofgames.team_b.name == newgame.team_a.name or oneofgames.team_b.name == newgame.team_b.name:
-                            duplicateexist = True
+                    if oneofgames.team_a.id == newgame.team_a.id or oneofgames.team_a.id == newgame.team_b.id or oneofgames.team_b.id == newgame.team_a.id or oneofgames.team_b.id == newgame.team_b.id:
+                        duplicateexist = True
 
-                        if not duplicateexist:
-                            newgame.save()
-                            games.remove(game)
-                if currentexistinggames.count() == 0:
+                if not duplicateexist:
                     newgame.save()
-                    games.remove(game)
+                    currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
+                    # games.remove(game)
+                else:
+                    workedoutgames.append(game)
+            if currentexistinggames.count() == 0:
+                newgame.save()
+                # games.remove(game)
+            if len(games) == 0:
+                games = workedoutgames.copy()
+                workedoutgames.clear()
+                minutesadded = datetime.timedelta(minutes=contest.game_length + contest.pause_length)
+                gamestarttime = gamestarttime + minutesadded
+                print(gamestarttime)
 
-            minutesadded = datetime.timedelta(minutes=contest.game_length + contest.pause_length)
-            gamestarttime = gamestarttime + minutesadded
-            print(gamestarttime)
     return redirect('home')
 
 
