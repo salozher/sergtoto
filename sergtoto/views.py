@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from itertools import combinations
 
-from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, DateForm
+from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, DateForm, ChangeGameForm
 from .models import MyUser, Team, Game, Contest, Bet
 
 
@@ -170,6 +170,8 @@ def contest_games_view(request, slug):
     return render(request, 'contest_games.html', context)
 
 
+
+
 class AddNewTeamView(CreateView):
     model = Team
     form_class = AddNewTeamForm
@@ -221,6 +223,41 @@ class AddNewContestView(CreateView):
     def form_valid(self, form):
         # form.instance.user_id = self.request.user.id
         return super(AddNewContestView, self).form_valid(form)
+
+
+def update_game(request, slug):
+    if request.method == 'POST':
+        game = Game.objects.get(slug=slug)
+        # create a form instance and populate it with data from the request:
+        form = ChangeGameForm(request.POST)
+        if form.is_valid():
+            game_is_started = form.cleaned_data['game_is_started']
+            game_is_played = form.cleaned_data['game_is_played']
+            score_team_a = form.cleaned_data['score_team_a']
+            score_team_b = form.cleaned_data['score_team_b']
+
+
+        game.game_is_started = game_is_started
+        game.game_is_played = game_is_played
+        game.score_team_a = score_team_a
+        game.score_team_b = score_team_b
+
+        game.save()
+        return redirect('home')
+    else:
+        game = Game.objects.get(slug=slug)
+        form = ChangeGameForm()
+        contests = Contest.objects.all
+        games = Game.objects.filter(pk=game.pk)
+        checked_radiobuttons = request.POST.getlist('checks')
+        context = {
+            'form': form,
+            'contests': contests,
+            'games': games,
+            'checked_radiobuttons': checked_radiobuttons,
+        }
+        return render(request, 'add_new_games.html', context)
+        # return redirect('bets_history')
 
 
 class AddNewGameView(CreateView):

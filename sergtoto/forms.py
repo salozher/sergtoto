@@ -21,8 +21,16 @@ class AddNewBetForm(forms.ModelForm):
         super(AddNewBetForm, self).__init__(*args, **kwargs)
 
 
-class AddNewContestForm(forms.ModelForm):
+class ChangeGameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ('game_is_started', 'score_team_a', 'score_team_b', 'game_is_played',)
 
+    def __init__(self, *args, **kwargs):
+        super(ChangeGameForm, self).__init__(*args, **kwargs)
+
+
+class AddNewContestForm(forms.ModelForm):
     class Meta:
         model = Contest
         fields = ('contest_start_date', 'game_length', 'pause_length')
