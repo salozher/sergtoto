@@ -29,7 +29,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('', home_view, name='home'),
-    # path('contest/<str:slug>/', contest_games_view(), name='contest_detail'),
     path('team/<str:slug>/', team_view, name='team_detail'),
     path('makebet/<int:pk>/', make_bet, name='make_bet'),
     path('betswinners/<str:slug>/', bets_winners, name='bets_winners'),

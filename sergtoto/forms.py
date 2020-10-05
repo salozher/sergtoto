@@ -6,10 +6,19 @@ from .models import Team, Bet, Contest, Game
 class AddNewTeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('name', 'description')
+        fields = ('name', 'selected_for_contest', 'description')
 
     def __init__(self, *args, **kwargs):
         super(AddNewTeamForm, self).__init__(*args, **kwargs)
+
+
+class SelectTeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ('selected_for_contest',)
+
+    def __init__(self, *args, **kwargs):
+        super(SelectTeamForm, self).__init__(*args, **kwargs)
 
 
 class AddNewBetForm(forms.ModelForm):
@@ -31,9 +40,11 @@ class ChangeGameForm(forms.ModelForm):
 
 
 class AddNewContestForm(forms.ModelForm):
+    contest_start_date = forms.CharField(help_text="yyyy-mm-dd hh:mm")
+
     class Meta:
         model = Contest
-        fields = ('contest_start_date', 'game_length', 'pause_length')
+        fields = ('contest_start_date', 'max_teams', 'game_length', 'pause_length')
 
     def __init__(self, *args, **kwargs):
         super(AddNewContestForm, self).__init__(*args, **kwargs)

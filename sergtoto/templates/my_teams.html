@@ -7,6 +7,9 @@
         {% for team in  my_teams %}
             <div class="list-group-item">
                 <h3>{{ team.name }}</h3>
+                {{ team.selected_for_contest.as_integer_ratio }}
+                <input type="checkbox" id="{{ team.slug }}" name="selected-team" value="selected">
+                <label for="vehicle1">Selected for contest</label><br>
                 <p>{{ team.description }}</p>
             </div>
         {% endfor %}

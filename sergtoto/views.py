@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from itertools import combinations
 
-from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, DateForm, ChangeGameForm
+from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, SelectTeamForm, ChangeGameForm
 from .models import MyUser, Team, Game, Contest, Bet
 
 
@@ -144,11 +144,22 @@ def teams_view(request):
 def my_teams_view(request):
     current_user = MyUser.objects.get(username=request.user.username)
     my_teams = Team.objects.filter(added_by=current_user)
+    if request.method == 'POST':
 
-    context = {
-        'my_teams': my_teams,
-    }
-    return render(request, 'my_teams.html', context)
+        form = SelectTeamForm(request.POST)
+        checkboxes = request.POST.getlist('checks[]')
+        # create a form instance and populate it with data from the request:
+        if form.is_valid():
+            selected_for_contest = form.cleaned_data['selected_for_contest']
+
+        return redirect('my_teams')
+    else:
+
+        form = ChangeGameForm()
+        context = {
+            'my_teams': my_teams,
+        }
+        return render(request, 'my_teams.html', context)
 
 
 def team_view(request, slug):
@@ -157,6 +168,24 @@ def team_view(request, slug):
         'team': team,
     }
     return render(request, 'team.html', context)
+
+
+def teams_for_contest(request, pk):
+    if request.method == 'POST':
+        team = Team.objects.get(pk=pk)
+        form = AddNewBetForm(request.POST)
+        checked_radiobuttons = request.POST.getlist('checks[]')
+        winner = checked_radiobuttons[0]
+        form.instance = request.user.id
+        if winner == '1':
+            form.instance.team_a_win = True
+        elif winner == '2':
+            form.instance.team_b_win = True
+        elif winner == '3':
+            form.instance.draw = True
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('betshistory')
 
 
 def contest_games_view(request, slug):
@@ -179,6 +208,21 @@ class AddNewTeamView(CreateView):
     def form_valid(self, form):
         existingteams = Team.objects.all()
         if existingteams.count() < 100:
+            form.instance.added_by = self.request.user
+            return super(AddNewTeamView, self).form_valid(form)
+        else:
+            return redirect('too_many_teams_warning')
+
+
+class ChangeTeamView(CreateView):
+    model = Team
+    form_class = AddNewTeamForm
+    success_url = reverse_lazy('my_teams')
+    template_name = 'my_teams.html'
+
+    def form_valid(self, form):
+        selectedteams = Team.objects.filter(selected_for_contest=True)
+        if selectedteams.count() < 101:
             form.instance.added_by = self.request.user
             return super(AddNewTeamView, self).form_valid(form)
         else:
@@ -236,12 +280,12 @@ def update_game(request, slug):
             if score_team_a > 0 or score_team_b > 0:
                 game_is_started = True
 
-        game.game_is_started = game_is_started
-        game.game_is_played = game_is_played
-        game.score_team_a = score_team_a
-        game.score_team_b = score_team_b
+            game.game_is_started = game_is_started
+            game.game_is_played = game_is_played
+            game.score_team_a = score_team_a
+            game.score_team_b = score_team_b
 
-        game.save()
+            game.save()
         return redirect('home')
     else:
         game = Game.objects.get(slug=slug)
@@ -274,19 +318,19 @@ def bets_history(request):
         for bet in bets:
             if bet.game == game:
                 if (game.score_team_a > game.score_team_b) and bet.team_a_win:
-                    bet.bet_won
+                    bet.bet_won = True
                 if (game.score_team_b > game.score_team_a) and bet.team_b_win:
-                    bet.bet_won
+                    bet.bet_won = True
                 if (game.score_team_b == game.score_team_a) and bet.draw:
-                    bet.bet_won
+                    bet.bet_won = True
             bet.save()
-
 
     context = {
         'bets': bets,
         'games': games,
     }
     return render(request, 'bets_history.html', context)
+
 
 def bets_winners(request, slug):
     game = Game.objects.get(slug=slug)
@@ -297,7 +341,6 @@ def bets_winners(request, slug):
         'game': game,
     }
     return render(request, 'bets_winners.html', context)
-
 
 
 def my_bets_history(request):
