@@ -63,6 +63,7 @@ class Team(models.Model):
     added_by = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     slug = models.SlugField(blank=True)
     selected_for_contest = models.BooleanField(default=False, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -92,6 +93,7 @@ class Contest(models.Model):
     game_length = models.IntegerField(default=10)
     pause_length = models.IntegerField(default=5)
     max_teams = models.IntegerField(default=20)
+    games_sheduled = models.BooleanField(default=False)
 
     def __str__(self):
         return "Contest date: " + (self.contest_start_date).__str__()
@@ -163,7 +165,8 @@ class Bet(models.Model):
         super(Bet, self).delete(*args, **kwargs)
 
 
-class Participant(models.Model):
+class ParticipantTeam(models.Model):
+    valid = models.BooleanField(default=False, blank=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
 
@@ -171,4 +174,4 @@ class Participant(models.Model):
         return self.contest.contest_start_date.__str__() + " " + self.team.name.__str__()
 
     def delete(self, *args, **kwargs):
-        super(Participant, self).delete(*args, **kwargs)
+        super(ParticipantTeam, self).delete(*args, **kwargs)

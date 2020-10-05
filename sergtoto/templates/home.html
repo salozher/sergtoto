@@ -29,6 +29,10 @@
 
                                     <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">
                                         Generate Games Table</a>
+                                    <br>
+                                    <a href="{% url 'contest_participants' contest.slug %}" class="list-group-item" method="post">
+                                        Contest Participants</a>
+
                                 {% endif %}
                             </div>
                         {% endfor %}

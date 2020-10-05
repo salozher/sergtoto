@@ -6,8 +6,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
 from itertools import combinations
 
-from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, SelectTeamForm, ChangeGameForm
-from .models import MyUser, Team, Game, Contest, Bet
+from .forms import AddNewTeamForm, AddNewBetForm, AddNewContestForm, AddNewGameForm, SelectTeamForm, ChangeGameForm, \
+    AddNewParticipantForm
+from .models import MyUser, Team, Game, Contest, Bet, ParticipantTeam
 
 
 # here you can make your bet
@@ -70,10 +71,9 @@ def generate_teams(request):
 
 def generate_tournament(request, slug):
     contest = Contest.objects.get(slug=slug)
-    existinggames = Game.objects.filter(contest=contest)
-    if existinggames.count() < 1:
+    if not contest.games_sheduled:
+        contest.games_sheduled = True
 
-        contest = Contest.objects.get(slug=slug)
         teams = Team.objects.all()
         teamsidlist = []
         for team in teams:
@@ -82,6 +82,7 @@ def generate_tournament(request, slug):
         games = list(combinations(teamsidlist, 2))
         workedoutgames = []
         gamestarttime = contest.contest_start_date
+
 
         while games:
             game = games.pop(0)
@@ -110,7 +111,7 @@ def generate_tournament(request, slug):
                 workedoutgames.clear()
                 minutesadded = datetime.timedelta(minutes=contest.game_length + contest.pause_length)
                 gamestarttime = gamestarttime + minutesadded
-
+    contest.save()
     return redirect('home')
 
 
@@ -144,22 +145,41 @@ def teams_view(request):
 def my_teams_view(request):
     current_user = MyUser.objects.get(username=request.user.username)
     my_teams = Team.objects.filter(added_by=current_user)
-    if request.method == 'POST':
+    contests = Contest.objects.filter(games_sheduled=False)
 
-        form = SelectTeamForm(request.POST)
-        checkboxes = request.POST.getlist('checks[]')
-        # create a form instance and populate it with data from the request:
-        if form.is_valid():
-            selected_for_contest = form.cleaned_data['selected_for_contest']
+    context = {
+        'my_teams': my_teams,
+        'contests': contests,
+    }
+    return render(request, 'my_teams.html', context)
 
-        return redirect('my_teams')
+
+def add_participant_to_contest(request, contest_slug, team_slug):
+    contest = Contest.objects.get(slug=contest_slug)
+    team = Team.objects.get(slug=team_slug)
+    participants = ParticipantTeam.objects.filter(contest=contest)
+    participant = ParticipantTeam()
+    participant.contest = contest
+    participant.team = team
+    no_duplicats = True
+    for participant in participants:
+        if participant.team == team:
+            no_duplicats = False
+    if no_duplicats:
+        participant.save()
+        return redirect('contest_participants', contest_slug)
     else:
+        return redirect('too_many_teams_warning')
 
-        form = ChangeGameForm()
-        context = {
-            'my_teams': my_teams,
-        }
-        return render(request, 'my_teams.html', context)
+
+def contest_participants(request, slug):
+    contest = Contest.objects.get(slug=slug)
+    participants = ParticipantTeam.objects.filter(contest__slug='2nsh00b6mhl0tal9z46zd1z1eofagdjq')
+
+    context = {
+        'participants': participants,
+    }
+    return render(request, 'contest_participants.html', context)
 
 
 def team_view(request, slug):

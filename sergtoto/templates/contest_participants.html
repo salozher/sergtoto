@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <h1>Contest Participants</h1>
+    <div class="col-lg-9">
+        {% for participant in  participants %}
+            <div class="list-group-item">
+                <h3>{{ participant.team.name }}</h3>
+                <p>{{ participant.team.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}

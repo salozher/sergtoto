@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.admin.widgets import AdminDateWidget
-from .models import Team, Bet, Contest, Game
+from .models import Team, Bet, Contest, Game, ParticipantTeam
 
 
 class AddNewTeamForm(forms.ModelForm):
@@ -48,6 +48,16 @@ class AddNewContestForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AddNewContestForm, self).__init__(*args, **kwargs)
+
+
+class AddNewParticipantForm(forms.ModelForm):
+    class Meta:
+        model = ParticipantTeam
+        fields = ('contest', 'team',)
+
+    def __init__(self, *args, **kwargs):
+        super(AddNewParticipantForm, self).__init__(*args, **kwargs)
+
 
 
 class AddNewGameForm(forms.ModelForm):
