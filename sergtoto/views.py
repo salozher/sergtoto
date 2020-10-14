@@ -162,16 +162,9 @@ def add_participant_to_contest(request, contest_slug, team_slug):
     participant.team = team
     no_duplicats = True
     message = ''
-
-    message1 = 'Cannot add this team to the contest. The maximum teams amount for this contest is reached.'
     message0 = 'This Team is already added to this Contest'
+    message1 = 'Cannot add this team to the contest. The maximum teams amount for this contest is reached.'
 
-    context1 = {
-        'message': message1,
-    }
-    context0 = {
-        'message': message0,
-    }
     if len(participants) == 0:
         participant.save()
         participants = ParticipantTeam.objects.filter(contest=contest)
@@ -194,18 +187,23 @@ def add_participant_to_contest(request, contest_slug, team_slug):
             }
             return render(request, 'contest_participants.html', context)
         else:
-            message = message1
-            return render(request, 'warning_message.html', context0)
+            context = {
+                'message': message0,
+            }
+            return render(request, 'warning_message.html', context)
     else:
-        message = message0
-        return render(request, 'warning_message.html', context1)
+        context = {
+            'message': message1,
+        }
+        return render(request, 'warning_message.html', context)
 
 
 def contest_participants(request, slug):
-    # contest = Contest.objects.get(slug=slug)
+    contest = Contest.objects.get(slug=slug)
     participants = ParticipantTeam.objects.filter(contest__slug=slug)
 
     context = {
+        'contest':contest,
         'participants': participants,
     }
     return render(request, 'contest_participants.html', context)
