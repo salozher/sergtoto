@@ -83,7 +83,6 @@ def generate_tournament(request, slug):
         workedoutgames = []
         gamestarttime = contest.contest_start_date
 
-
         while games:
             game = games.pop(0)
             currentexistinggames = Game.objects.filter(contest=contest, game_date_time=gamestarttime)
@@ -162,19 +161,49 @@ def add_participant_to_contest(request, contest_slug, team_slug):
     participant.contest = contest
     participant.team = team
     no_duplicats = True
-    for participant in participants:
-        if participant.team == team:
-            no_duplicats = False
-    if no_duplicats:
+    message = ''
+
+    message1 = 'Cannot add this team to the contest. The maximum teams amount for this contest is reached.'
+    message0 = 'This Team is already added to this Contest'
+
+    context1 = {
+        'message': message1,
+    }
+    context0 = {
+        'message': message0,
+    }
+    if len(participants) == 0:
         participant.save()
-        return redirect('contest_participants', contest_slug)
+        participants = ParticipantTeam.objects.filter(contest=contest)
+        context = {
+            'contest': contest,
+            'participants': participants,
+        }
+        return render(request, 'contest_participants.html', context)
+
+    if (len(participants) < contest.max_teams) and participants:
+        for member in participants:
+            if member.team == team:
+                no_duplicats = False
+        if no_duplicats:
+            participant.save()
+            participants = ParticipantTeam.objects.filter(contest=contest)
+            context = {
+                'contest': contest,
+                'participants': participants,
+            }
+            return render(request, 'contest_participants.html', context)
+        else:
+            message = message1
+            return render(request, 'warning_message.html', context0)
     else:
-        return redirect('too_many_teams_warning')
+        message = message0
+        return render(request, 'warning_message.html', context1)
 
 
 def contest_participants(request, slug):
-    contest = Contest.objects.get(slug=slug)
-    participants = ParticipantTeam.objects.filter(contest__slug='2nsh00b6mhl0tal9z46zd1z1eofagdjq')
+    # contest = Contest.objects.get(slug=slug)
+    participants = ParticipantTeam.objects.filter(contest__slug=slug)
 
     context = {
         'participants': participants,
@@ -261,7 +290,7 @@ def too_many_teams_view(request):
     context = {
         'teams': teams,
     }
-    return render(request, 'too_many_teams.html', context)
+    return render(request, 'warning_message.html', context)
 
 
 class AddNewBetView(CreateView):
