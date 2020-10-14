@@ -25,15 +25,17 @@
                                         {% endif %}
                                         </a>
                                     {% endfor %}
-                                {% if user.is_admin %}
+                                {% if user.is_admin and not contest.games_sheduled %}
 
                                     <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">
                                         Generate Games Table</a>
-                                    <br>
-                                    <a href="{% url 'contest_participants' contest.slug %}" class="list-group-item" method="post">
-                                        Contest Participants <br> max. capacity teams: {{ contest.max_teams }}</a>
-
                                 {% endif %}
+                                <br>
+                                <a href="{% url 'contest_participants' contest.slug %}" class="list-group-item"
+                                   method="post">
+                                    Contest Participants <br> max. capacity teams: {{ contest.max_teams }}</a>
+
+
                             </div>
                         {% endfor %}
                     </div>
@@ -87,10 +89,10 @@
                                     {% endif %}
 
                                     {% if user.is_admin %}
-                                    <a href="{% url 'update_game' game.slug %}" style="background-color: lawngreen">
-                                        ADMIN TASK: Update Game
-                                        {{ game.game_date_time }}</a>
-                                {% endif %}
+                                        <a href="{% url 'update_game' game.slug %}" style="background-color: lawngreen">
+                                            ADMIN TASK: Update Game
+                                            {{ game.game_date_time }}</a>
+                                    {% endif %}
                                     <br>
                                 </h6>
                                 <h6>

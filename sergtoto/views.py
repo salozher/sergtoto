@@ -74,10 +74,10 @@ def generate_tournament(request, slug):
     if not contest.games_sheduled:
         contest.games_sheduled = True
 
-        teams = Team.objects.all()
+        teams = ParticipantTeam.objects.filter(contest__slug=slug)
         teamsidlist = []
         for team in teams:
-            teamsidlist.append(team.id)
+            teamsidlist.append(team.team.id)
 
         games = list(combinations(teamsidlist, 2))
         workedoutgames = []
