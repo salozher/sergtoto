@@ -71,7 +71,7 @@ def generate_teams(request):
 
 def generate_tournament(request, slug):
     contest = Contest.objects.get(slug=slug)
-    if not contest.games_sheduled and Game.objects.filter(contest=contest):
+    if not contest.games_sheduled and len((ParticipantTeam.objects.filter(contest=contest))) > 1:
         contest.games_sheduled = True
 
         teams = ParticipantTeam.objects.filter(contest__slug=slug)
@@ -203,7 +203,7 @@ def contest_participants(request, slug):
     participants = ParticipantTeam.objects.filter(contest__slug=slug)
 
     context = {
-        'contest':contest,
+        'contest': contest,
         'participants': participants,
     }
     return render(request, 'contest_participants.html', context)
