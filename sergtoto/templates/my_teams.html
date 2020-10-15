@@ -4,33 +4,35 @@
     <script src="{% static 'js/jquery.js' %}"></script>
     <h1>Show My Teams</h1>
     <div class="col-lg-9">
-        {% for team in  my_teams %}
-            <div class="list-group-item">
-                <h3>{{ team.name }}</h3>
-                <li>
-                    <div class="dropdown">
-                        <a href="#" data-toggle="dropdown" role="button">
-                            Add Team to a Contest
-                        </a>
+        <div class="row list-group-item" style="background-color:#dddddd;">
+            {% for team in  my_teams %}
+                <div class="list-group-item">
+                    <h3>{{ team.name }}</h3>
+                    <li>
+                        <div class="dropdown">
+                            <a href="#" data-toggle="dropdown" role="button">
+                                Add Team to a Contest
+                            </a>
 
-                        <br><br>
-                        <ul class="dropdown-menu">
-                            {% for contest in contests %}
-                                <li class="nav-item">
-                                    <a class="dropdown-item"
-                                       href="{% url 'add_participant' contest.slug team.slug %}">
-                                        {{ contest.contest_start_date }}</a>
-                                </li>
+                            <br><br>
+                            <ul class="dropdown-menu">
+                                {% for contest in contests %}
+                                    <li class="nav-item">
+                                        <a class="dropdown-item"
+                                           href="{% url 'add_participant' contest.slug team.slug %}">
+                                            {{ contest.contest_start_date }}</a>
+                                    </li>
 
-                            {% endfor %}
-                        </ul>
+                                {% endfor %}
+                            </ul>
 
-                    </div>
-                </li>
-                <p>{{ team.description }}</p>
-            </div>
-        {% endfor %}
+                        </div>
+                    </li>
+                    <p>{{ team.description }}</p>
+                </div>
+                <br>
+            {% endfor %}
+        </div>
     </div>
-
 
 {% endblock content %}

@@ -27,12 +27,15 @@
                                 {% endfor %}
                                 {% if user.is_admin and not contest.games_sheduled %}
 
-                                    <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post">
+                                    <a href="{% url 'games' contest.slug %}" class="list-group-item" method="post"
+                                       style="background-color: lawngreen">
+                                        ADMIN TASK:
+                                        <br>
                                         Generate Games Table</a>
                                 {% endif %}
                                 <br>
                                 <a href="{% url 'contest_participants' contest.slug %}" class="list-group-item"
-                                   method="post">
+                                   method="post" style="background-color:#d4edda">
                                     Show Participants <br> max. capacity teams: {{ contest.max_teams }}</a>
 
 
@@ -65,7 +68,7 @@
                                             {{ game.score_team_b }} {{ game.team_b }}</u></b>
                                         <a href="{% url 'bets_winners' game.slug %}" class="list-group-item"
                                            method="post"
-                                           style="background-color: #d4edda">
+                                           style="background-color: palegoldenrod">
                                             See winning bets</a>
                                     </h6>
                                 {% elif game.game_is_started %}

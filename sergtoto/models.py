@@ -131,7 +131,8 @@ class Game(models.Model):
     # objects = PlayedGames()
 
     def __str__(self):
-        return self.game_date_time.__str__() + " " + self.team_a.name + " vs " + self.team_b.name
+        return self.game_date_time.date().__str__() + " @ " +\
+               self.game_date_time.time().__str__() + " " + self.team_a.name + " vs " + self.team_b.name
 
     def delete(self, *args, **kwargs):
         super(Game, self).delete(*args, **kwargs)
