@@ -5,12 +5,15 @@
     <h1>Contest Participants</h1>
     <h3>max. capacity teams: {{ contest.max_teams }}</h3>
     <div class="col-lg-9">
+    <div class="row list-group-item" style="background-color:#dddddd;">
         {% for participant in  participants %}
             <div class="list-group-item">
                 <h3>{{ participant.team.name }}</h3>
                 <p>{{ participant.team.description }}</p>
             </div>
+            <br>
         {% endfor %}
+    </div>
     </div>
 
 
