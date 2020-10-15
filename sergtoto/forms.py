@@ -6,7 +6,7 @@ from .models import Team, Bet, Contest, Game, ParticipantTeam
 class AddNewTeamForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('name', 'selected_for_contest', 'description')
+        fields = ('name', 'description')
 
     def __init__(self, *args, **kwargs):
         super(AddNewTeamForm, self).__init__(*args, **kwargs)

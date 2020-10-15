@@ -71,7 +71,7 @@ def generate_teams(request):
 
 def generate_tournament(request, slug):
     contest = Contest.objects.get(slug=slug)
-    if not contest.games_sheduled:
+    if not contest.games_sheduled and Game.objects.filter(contest=contest):
         contest.games_sheduled = True
 
         teams = ParticipantTeam.objects.filter(contest__slug=slug)
