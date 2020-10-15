@@ -3,6 +3,7 @@
 {% block content %}
     <script src="{% static 'js/jquery.js' %}"></script>
     <h1>Show My Teams</h1>
+    <a class="button" href="{% url 'add_new_team' %}"><button style="background-color:palegoldenrod">Add New Team</button></a>
     <div class="col-lg-9">
         <div class="row list-group-item" style="background-color:#dddddd;">
             {% for team in  my_teams %}
