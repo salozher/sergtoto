@@ -310,6 +310,8 @@ class AddNewContestView(CreateView):
     template_name = 'new_contest.html'
 
     def form_valid(self, form):
+        if form.instance.max_teams > 100:
+            form.instance.max_teams = 100
         # form.instance.user_id = self.request.user.id
         return super(AddNewContestView, self).form_valid(form)
 
@@ -363,15 +365,17 @@ def bets_history(request):
     games = Game.objects.filter(game_is_played=True)
     for game in games:
         for bet in bets:
-            if bet.game == game:
+            if (bet.game == game) and game.game_is_played:
                 if (game.score_team_a > game.score_team_b) and bet.team_a_win:
                     bet.bet_won = True
-                if (game.score_team_b > game.score_team_a) and bet.team_b_win:
+                elif (game.score_team_b > game.score_team_a) and bet.team_b_win:
                     bet.bet_won = True
-                if (game.score_team_b == game.score_team_a) and bet.draw:
+                elif (game.score_team_b == game.score_team_a) and bet.draw:
                     bet.bet_won = True
+                else:
+                    bet.bet_loose = True
             bet.save()
-
+    bets = Bet.objects.all()
     context = {
         'bets': bets,
         'games': games,
@@ -397,15 +401,17 @@ def my_bets_history(request):
     games = Game.objects.filter(game_is_played=True)
     for game in games:
         for bet in bets:
-            if bet.game == game:
+            if (bet.game == game) and game.game_is_played:
                 if (game.score_team_a > game.score_team_b) and bet.team_a_win:
                     bet.bet_won = True
-                if (game.score_team_b > game.score_team_a) and bet.team_b_win:
+                elif (game.score_team_b > game.score_team_a) and bet.team_b_win:
                     bet.bet_won = True
-                if (game.score_team_b == game.score_team_a) and bet.draw:
+                elif (game.score_team_b == game.score_team_a) and bet.draw:
                     bet.bet_won = True
+                else:
+                    bet.bet_loose = True
             bet.save()
-
+    bets = Bet.objects.filter(user=current_user)
     context = {
         'bets': bets,
         'games': games,

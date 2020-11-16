@@ -90,7 +90,7 @@
                                     </h6>
                                 {% elif game.game_is_started is not True %}
                                     <h6>
-                                        {% if not user.is_admin %}
+                                        {% if not user.is_admin and user.is_employee %}
                                             <a href="{% url 'game' game.pk %}" style="background-color: palegoldenrod">
                                                 Make your Bet for Game at
                                                 {{ game.game_date_time }}</a>

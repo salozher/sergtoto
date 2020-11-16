@@ -18,10 +18,24 @@
                     {% endif %}
 
                 </p>
-            {% if user == bet.user and bet.bet_won %}
-                <h4 style="background-color: #71dd8a"> And this bet won!!!</h4>
-
+                {% if user.is_admin %}
+                    {% if bet.bet_won %}
+                        {#                    {% if user == bet.user and bet.bet_won %}#}
+                        <h4 style="background-color: #71dd8a">This bet won</h4>
                     {% endif %}
+                    {% if bet.bet_loose %}
+                        <h4 style="background-color: red"> This bet loose</h4>
+                    {% endif %}
+                {% endif %}
+                {% if user == bet.user and bet.bet_won %}
+                    {#                    {% if user == bet.user and bet.bet_won %}#}
+                    <h4 style="background-color: #71dd8a">And this bet won!!!</h4>
+
+                {% endif %}
+                {% if user == bet.user and bet.bet_loose %}
+                    <h4 style="background-color: red"> And this bet loose</h4>
+
+                {% endif %}
             </div>
         {% endfor %}
     </div>
