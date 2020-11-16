@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <script src="{% static 'js/jquery.js' %}"></script>
+    {#    <script src="{% static 'js/jquery.js' %}"></script>#}
     <h1>Bets History</h1>
     <div class="col-lg-9">
         {% for bet in  bets %}
@@ -37,6 +37,4 @@
             </div>
         {% endfor %}
     </div>
-
-
 {% endblock content %}

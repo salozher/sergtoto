@@ -75,16 +75,20 @@
                             <li class="nav-item">
                                 <a class="dropdown-item" href="{% url 'my_teams' %}">My Teams List</a>
                             </li>
-{#                            <li class="nav-item">#}
-{#                                <a class="dropdown-item" href="{% url 'add_new_team' %}">Add New Team</a>#}
-{#                            </li>#}
+                            {#                            <li class="nav-item">#}
+                            {#                                <a class="dropdown-item" href="{% url 'add_new_team' %}">Add New Team</a>#}
+                            {#                            </li>#}
 
                             <li>
                                 <a class="dropdown-item" href="{% url 'bets_history' %}">Bets History</a>
                             </li>
-                            <li>
-                                <a class="dropdown-item" href="{% url 'my_bets_history' %}">My Bets History</a>
-                            </li>
+
+                            {% if not user.is_admin %}
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'my_bets_history' %}">My Bets History</a>
+                                </li>
+                            {% endif %}
+
 
                             {% if user.is_admin %}
                                 <li>
@@ -114,11 +118,25 @@
         </div>
     </div>
 </nav>
+
+{% if not user.is_authenticated %}
+    <div class="container">
+        <h2>Hello Guest! You are not authenticated!<br> Welcome to Serg's Toto.<br>Please log in:</h2>
+        <h6>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h6>
+        <h6>For all those accounts the password is: <br>password</h6>
+        <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>
+        <a href="{% url 'login' %}">
+            <button class="btn btn-success btn-block">Login</button>
+        </a>
+    </div>
+{% endif %}
 <!-- Page Content -->
 <div class="container">
-    {% block content %}
+    {% if user.is_authenticated %}
+        {% block content %}
 
-    {% endblock content %}
+        {% endblock content %}
+    {% endif %}
 </div>
 
 <div class="container">

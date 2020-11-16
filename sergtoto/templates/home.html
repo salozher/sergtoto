@@ -123,15 +123,17 @@
             </div>
         </div>
 
-    {% else %}
-        <h2>Hello Guest!<br> Welcome to Serg's Toto.<br>Please log in:</h2>
-        <h6>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h6>
-        <h6>For all those accounts the password is: <br>password</h6>
-        <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>
-        <a href="{% url 'login' %}">
-            <button class="btn btn-success btn-block">Login</button>
-        </a>
     {% endif %}
+{#    {% if not user.is_authenticated %}#}
+{##}
+{#        <h2>Hello Guest!<br> Welcome to Serg's Toto.<br>Please log in:</h2>#}
+{#        <h6>For testing you can use following accounts: <br>username:<br>User1 <br>User2<br>User3<br></h6>#}
+{#        <h6>For all those accounts the password is: <br>password</h6>#}
+{#        <h3>Pay attention:<br>switch off auto-translation from English language on the page!</h3>#}
+{#        <a href="{% url 'login' %}">#}
+{#            <button class="btn btn-success btn-block">Login</button>#}
+{#        </a>#}
+{#    {% endif %}#}
 
     {#    <script type="text/text/javascript">#}
     {#        $(document).ready(function () {#}
