@@ -20,7 +20,6 @@
                 </p>
                 {% if user.is_admin %}
                     {% if bet.bet_won %}
-                        {#                    {% if user == bet.user and bet.bet_won %}#}
                         <h4 style="background-color: #71dd8a">This bet won</h4>
                     {% endif %}
                     {% if bet.bet_loose %}
@@ -28,7 +27,6 @@
                     {% endif %}
                 {% endif %}
                 {% if user == bet.user and bet.bet_won %}
-                    {#                    {% if user == bet.user and bet.bet_won %}#}
                     <h4 style="background-color: #71dd8a">And this bet won!!!</h4>
 
                 {% endif %}
